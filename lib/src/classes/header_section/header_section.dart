@@ -1,11 +1,11 @@
-import '../base_section.dart';
+import '../section.dart';
 import '../element.dart';
 import '../group_code.dart';
 import 'acadver.dart';
 import 'ext.dart';
 import 'handseed.dart';
 
-class HeaderSection extends BaseSection {
+class HeaderSection extends Section {
   final List<Element> _undefinedElements = <Element>[];
   List<Element> get undefinedElements => _undefinedElements;
 

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dxf/src/classes/classes_section/classes_section.dart';
 
-import 'classes/base_section.dart';
+import 'classes/section.dart';
 import 'classes/blocks_section/blocks_section.dart';
 import 'classes/entities_section/entities_section.dart';
 import 'classes/group_code.dart';
@@ -111,24 +111,6 @@ abstract class DXF {
       str += section.dxfString;
     }
     return str + '0\r\nEOF';
-  }
-}
-
-/// Section group code
-enum Section {
-  header,
-  classes,
-  tables,
-  blocks,
-  entities,
-  objects,
-  acdsdata,
-  thumbnailimage
-}
-
-extension SectionExtension on Section {
-  String get name {
-    return toString().split('.').last.toUpperCase();
   }
 }
 

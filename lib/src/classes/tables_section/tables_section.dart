@@ -1,8 +1,8 @@
-import '../base_section.dart';
+import '../section.dart';
 import '../element.dart';
 import '../group_code.dart';
 
-class TablesSection extends BaseSection {
+class TablesSection extends Section {
   final List<Element> _undefinedElements = <Element>[];
   List<Element> get undefinedElements => _undefinedElements;
 

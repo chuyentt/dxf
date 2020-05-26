@@ -1,6 +1,6 @@
 import 'group_code.dart';
 
-abstract class BaseSection {
+abstract class Section {
 
   bool _isNotEmpty = false;
   bool get isNotEmpty => _isNotEmpty;
@@ -19,7 +19,7 @@ abstract class BaseSection {
   
 }
 
-class UndefinedSection extends BaseSection {
+class UndefinedSection extends Section {
   @override
   Future parse(List<GroupCode> groupCodes) {
     return null;
