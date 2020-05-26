@@ -10,8 +10,11 @@ A simple usage example:
 import 'package:dxf/dxf.dart';
 
 void main() {
-  var dxf = DXF.create('example/data/new.dxf');
-  print('path: ${dxf.path}');
+  var launchTime = DateTime.now();
+  DXF.load('example/data/r18.dxf').then((DXF dxf) {
+    dxf.save(newPath: 'example/data/r18s.dxf');
+    print(DateTime.now().difference(launchTime));
+  });
 }
 ```
 
