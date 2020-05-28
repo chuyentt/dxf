@@ -13,3 +13,7 @@
 ## 1.0.2
 
 - Parse entities section
+
+## 1.0.2+1
+
+- Fix suggestions

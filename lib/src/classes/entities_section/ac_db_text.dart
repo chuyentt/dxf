@@ -52,7 +52,14 @@ class AcDbText extends AcDbEntity {
     if (result != null) result.value = value;
   }
 
-  double _textHeight = 2.5;
+  double _textHeight = 0.2;
+  double get textHeight => _textHeight;
+  set textHeight(value) {
+    _textHeight = value;
+    var result =
+        groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
+    if (result != null) result.value = value;
+  }
 
   @override
   Future parse() {
