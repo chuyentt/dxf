@@ -1,15 +1,14 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
 
-import 'package:dxf/src/classes/classes_section/classes_section.dart';
-
+import 'classes/group_code.dart';
 import 'classes/section.dart';
+import 'classes/header_section/header_section.dart';
+import 'classes/classes_section/classes_section.dart';
+import 'classes/tables_section/tables_section.dart';
 import 'classes/blocks_section/blocks_section.dart';
 import 'classes/entities_section/entities_section.dart';
-import 'classes/group_code.dart';
-import 'classes/header_section/header_section.dart';
 import 'classes/objects_section/objects_section.dart';
-import 'classes/tables_section/tables_section.dart';
 import 'classes/thumbnailimage_section/thumbnailimage_section.dart';
 
 /// DXF abstract class
@@ -86,27 +85,13 @@ abstract class DXF {
   /// Return DXF String by group codes
   String get dxfString {
     var str = '';
-    if (header.isNotEmpty) {
-      str += header.dxfString;
-    }
-    if (classes.isNotEmpty) {
-      str += classes.dxfString;
-    }
-    if (tables.isNotEmpty) {
-      str += tables.dxfString;
-    }
-    if (blocks.isNotEmpty) {
-      str += blocks.dxfString;
-    }    
-    if (entities.isNotEmpty) {
-      str += entities.dxfString;
-    }
-    if (objects.isNotEmpty) {
-      str += objects.dxfString;
-    }
-    if (thumbnailImage.isNotEmpty) {
-      str += thumbnailImage.dxfString;
-    }
+    str += header.dxfString;
+    str += classes.dxfString;
+    str += tables.dxfString;
+    str += blocks.dxfString;
+    str += entities.dxfString;
+    str += objects.dxfString;
+    str += thumbnailImage.dxfString;
     for (var section in _undefinedSections) {
       str += section.dxfString;
     }

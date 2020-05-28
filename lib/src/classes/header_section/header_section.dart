@@ -35,17 +35,12 @@ class HeaderSection extends Section {
   set extMaxY(value) => _extMax.y = value;
   double get extMaxZ => _extMax.z;
   set extMaxZ(value) => _extMax.z = value;
-  
-  bool _isNotEmpty = false;
-  @override
-  bool get isNotEmpty => _isNotEmpty;
-  
+    
   @override
   Future parse(List<GroupCode> groupCodes) async {
     if (groupCodes.length < 4 && groupCodes.length % 2 != 0) return null;
     var codes = <GroupCode>[];
     var variableName;
-    _isNotEmpty = true;
     groupCodes.forEach((groupCode) {
       if (!groupCode.isSECTION && !groupCode.isHEADER) {
         if (groupCode.key == 9 || groupCode.isENDSEC) {

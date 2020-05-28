@@ -1,22 +1,16 @@
 import 'group_code.dart';
 
 abstract class Section {
-
-  bool _isNotEmpty = false;
-  bool get isNotEmpty => _isNotEmpty;
-
   var _groupCodes = <GroupCode>[];
   List<GroupCode> get groupCodes => _groupCodes;
- 
+
   set groupCodes(value) {
-    _isNotEmpty = true;
     return _groupCodes = value;
   }
 
   Future parse(List<GroupCode> groupCodes);
 
   String get dxfString;
-  
 }
 
 class UndefinedSection extends Section {
@@ -34,5 +28,4 @@ class UndefinedSection extends Section {
     });
     return str;
   }
-
 }
