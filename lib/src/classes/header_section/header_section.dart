@@ -4,13 +4,14 @@ import '../group_code.dart';
 import 'acadver.dart';
 import 'ext.dart';
 import 'handseed.dart';
+import 'text_size.dart';
 
 class HeaderSection extends Section {
   final List<Element> _undefinedElements = <Element>[];
   List<Element> get undefinedElements => _undefinedElements;
 
   final _handSeed = HandSeed();
-  String get handSeed => _handSeed.handSeed;
+  int get handSeed => _handSeed.handSeed;
   void increaseHandSeed() => _handSeed.increase();
 
   final _acadVer = AcadVer();
@@ -18,6 +19,13 @@ class HeaderSection extends Section {
   String get acadVer => _acadVer.acadVer;
   set acadVer(value) {
     _acadVer.acadVer = value;
+  }
+
+  final _textSize = TextSize();
+
+  double get textSize => _textSize.textHeight;
+  set textSize(value) {
+    _textSize.textHeight = value;
   }
 
   final Ext _extMin = Ext();
@@ -61,6 +69,10 @@ class HeaderSection extends Section {
               _handSeed.groupCodes.addAll(codes);
               _handSeed.parse();
               break;
+            case '\$TEXTSIZE':
+              _textSize.groupCodes.addAll(codes);
+              _textSize.parse();
+              break;
             default:
               if (variableName != null) {
                 var variable = UndefinedElement();
@@ -79,18 +91,11 @@ class HeaderSection extends Section {
   @override
   String get dxfString {
     var str = '0\r\nSECTION\r\n2\r\nHEADER\r\n';
-    if (_acadVer.groupCodes.isNotEmpty) {
-      str += _acadVer.dxfString;
-    }
-    if (_extMin.groupCodes.isNotEmpty) {
-      str += _extMin.dxfString;
-    }
-    if (_extMax.groupCodes.isNotEmpty) {
-      str += _extMax.dxfString;
-    }
-    if (_handSeed.groupCodes.isNotEmpty) {
-      str += _handSeed.dxfString;
-    }
+    str += '9\r\n\$ACADVER\r\n${_acadVer.dxfString}';
+    str += '9\r\n\$EXTMIN\r\n${_extMin.dxfString}';
+    str += '9\r\n\$EXTMAX\r\n${_extMax.dxfString}';
+    str += '9\r\n\$HANDSEED\r\n${_handSeed.dxfString}';
+    str += '9\r\n\$TEXTSIZE\r\n${_textSize.dxfString}';
 
     undefinedElements.forEach((m) {
       str += m.dxfString;

@@ -1,7 +1,11 @@
 import '../element.dart';
+import '../group_code.dart';
 
 class AcadVer extends Element {
-  String _acadVer;
+  AcadVer() {
+    groupCodes.add(GroupCode(key: 1, value: acadVer));
+  }
+  String _acadVer = 'AC1015';
   String get acadVer => _acadVer;
   set acadVer(value) {
     _acadVer = value;

@@ -1,7 +1,14 @@
 import '../element.dart';
+import '../group_code.dart';
 
 class Ext extends Element {
-  double _x, _y, _z;
+  Ext() {
+    groupCodes.add(GroupCode(key: 10, value: x));
+    groupCodes.add(GroupCode(key: 20, value: y));
+    groupCodes.add(GroupCode(key: 30, value: z));
+  }
+  
+  double _x = 0, _y = 0, _z = 0;
 
   double get x => _x;
   set x(value) {

@@ -1,11 +1,30 @@
-import '../element.dart';
+import '../group_code.dart';
+import 'ac_db_entity.dart';
 
 /// Autocad Database Line
-class AcDbLine extends Element {
-  int _handle;
-  int get handle => _handle;
+class AcDbLine extends AcDbEntity {
+  AcDbLine(
+      {double x = 0,
+      double y = 0,
+      double z = 0,
+      double x1 = 0,
+      double y1 = 0,
+      double z1 = 0}) {
+    _x = x;
+    _y = y;
+    _z = z;
+    _x1 = x1;
+    _y1 = y1;
+    _z1 = z1;
+    groupCodes.add(GroupCode(key: 10, value: x));
+    groupCodes.add(GroupCode(key: 20, value: y));
+    groupCodes.add(GroupCode(key: 30, value: z));
+    groupCodes.add(GroupCode(key: 11, value: x1));
+    groupCodes.add(GroupCode(key: 21, value: y1));
+    groupCodes.add(GroupCode(key: 31, value: z1));
+  }
 
-  double _x, _y, _z;
+  double _x = 0, _y = 0, _z = 0;
   double get x => _x;
   set x(value) {
     _x = value;
@@ -30,7 +49,7 @@ class AcDbLine extends Element {
     if (result != null) result.value = value;
   }
 
-  double _x1, _y1, _z1;
+  double _x1 = 0, _y1 = 0, _z1 = 0;
   double get x1 => _x1;
   set x1(value) {
     _x1 = value;
@@ -59,7 +78,7 @@ class AcDbLine extends Element {
   Future parse() {
     var result =
         groupCodes.firstWhere((code) => code.key == 5, orElse: () => null);
-    if (result != null) _handle = int.tryParse(result.value, radix: 16);
+    if (result != null) handle = int.tryParse(result.value, radix: 16);
 
     result =
         groupCodes.firstWhere((code) => code.key == 10, orElse: () => null);
@@ -86,5 +105,10 @@ class AcDbLine extends Element {
     if (result != null) _z1 = double.tryParse(result.value);
 
     return null;
+  }
+
+  @override
+  String get dxfString {
+    return '0\r\nLINE\r\n5\r\n${handle.toRadixString(16)}\r\n8\r\n0\r\n${super.dxfString}';
   }
 }

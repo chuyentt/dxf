@@ -1,11 +1,23 @@
-import '../element.dart';
 import '../group_code.dart';
+import 'ac_db_entity.dart';
 
 /// Autocad Database Text
-class AcDbText extends Element {
-  int _handle;
-  int get handle => _handle;
-
+class AcDbText extends AcDbEntity {
+  AcDbText(
+      {double x = 0,
+      double y = 0,
+      double z = 0,
+      String value = '',
+      double textHeight = 0.2}) {
+    _x = x;
+    _y = y;
+    _z = z;
+    groupCodes.add(GroupCode(key: 10, value: x));
+    groupCodes.add(GroupCode(key: 20, value: y));
+    groupCodes.add(GroupCode(key: 30, value: z));
+    groupCodes.add(GroupCode(key: 1, value: value));
+    groupCodes.add(GroupCode(key: 40, value: textHeight));
+  }
   double _x, _y, _z;
   double get x => _x;
   set x(value) {
@@ -40,11 +52,13 @@ class AcDbText extends Element {
     if (result != null) result.value = value;
   }
 
+  double _textHeight = 2.5;
+
   @override
   Future parse() {
     var result =
         groupCodes.firstWhere((code) => code.key == 5, orElse: () => null);
-    if (result != null) _handle = int.tryParse(result.value, radix: 16);
+    if (result != null) handle = int.tryParse(result.value, radix: 16);
 
     result =
         groupCodes.firstWhere((code) => code.key == 10, orElse: () => null);
@@ -61,6 +75,14 @@ class AcDbText extends Element {
     result = groupCodes.firstWhere((code) => code.key == 1, orElse: () => null);
     if (result != null) _value = result.value;
 
+    result = groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
+    if (result != null) _textHeight = result.value;
+
     return null;
+  }
+
+  @override
+  String get dxfString {
+    return '0\r\nTEXT\r\n5\r\n${handle.toRadixString(16)}\r\n8\r\n0\r\n${super.dxfString}';
   }
 }
