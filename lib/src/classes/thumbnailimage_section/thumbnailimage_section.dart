@@ -6,15 +6,10 @@ class ThumbnailimageSection extends Section {
   final List<Element> _undefinedElements = <Element>[];
   List<Element> get undefinedElements => _undefinedElements;
 
-  bool _isNotEmpty = false;
-  @override
-  bool get isNotEmpty => _isNotEmpty;
-
   @override
   Future parse(List<GroupCode> groupCodes) async {
     if (groupCodes.length < 4 && groupCodes.length % 2 != 0) return null;
     var codes = <GroupCode>[];
-    _isNotEmpty = true;
     groupCodes.forEach((groupCode) {
       if (!groupCode.isSECTION && !groupCode.isTHUMBNAILIMAGE) {
         if (groupCode.isENDSEC) {
