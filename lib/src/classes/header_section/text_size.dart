@@ -9,15 +9,16 @@ class TextSize extends Element {
   double get textHeight => _textHeight;
   set textHeight(value) {
     _textHeight = value;
-    var result = groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
+    var result =
+        groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
     if (result != null) result.value = value;
   }
 
   @override
   Future parse() {
-    var result = groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
+    var result =
+        groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
     if (result != null) _textHeight = result.value;
     return null;
   }
-
 }

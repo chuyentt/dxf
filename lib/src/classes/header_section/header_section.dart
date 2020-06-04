@@ -35,7 +35,7 @@ class HeaderSection extends Section {
   set extMinY(value) => _extMin.y = value;
   double get extMinZ => _extMin.z;
   set extMinZ(value) => _extMin.z = value;
-  
+
   final Ext _extMax = Ext();
   double get extMaxX => _extMax.x;
   set extMaxX(value) => _extMax.x = value;
@@ -43,7 +43,7 @@ class HeaderSection extends Section {
   set extMaxY(value) => _extMax.y = value;
   double get extMaxZ => _extMax.z;
   set extMaxZ(value) => _extMax.z = value;
-    
+
   @override
   Future parse(List<GroupCode> groupCodes) async {
     if (groupCodes.length < 4 && groupCodes.length % 2 != 0) return null;

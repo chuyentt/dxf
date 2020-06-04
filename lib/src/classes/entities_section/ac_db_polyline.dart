@@ -9,7 +9,7 @@ class AcDbPolyline extends AcDbEntity {
     _nVertices = vertices.length;
     groupCodes.add(GroupCode(key: 90, value: nVertices));
     groupCodes.add(GroupCode(key: 70, value: isClosed ? 1 : 0));
-    vertices.forEach((vertext) { 
+    vertices.forEach((vertext) {
       groupCodes.add(GroupCode(key: 10, value: vertext[0]));
       groupCodes.add(GroupCode(key: 20, value: vertext[1]));
     });

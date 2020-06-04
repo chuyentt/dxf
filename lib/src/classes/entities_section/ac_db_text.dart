@@ -82,7 +82,8 @@ class AcDbText extends AcDbEntity {
     result = groupCodes.firstWhere((code) => code.key == 1, orElse: () => null);
     if (result != null) _value = result.value;
 
-    result = groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
+    result =
+        groupCodes.firstWhere((code) => code.key == 40, orElse: () => null);
     if (result != null) _textHeight = result.value;
 
     return null;

@@ -21,3 +21,7 @@
 ## 1.0.2+2
 
 - Fix suggestions
+
+## 1.0.2+3
+
+- Format code

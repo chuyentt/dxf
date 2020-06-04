@@ -54,7 +54,7 @@ abstract class DXF {
     var dxf = _DXF();
     dxf._path = path;
     await file.readAsString().then((data) async {
-      var ls = LineSplitter();      
+      var ls = LineSplitter();
       var lines = ls.convert(data);
       var keyFlag = false;
       var groupCodes = <GroupCode>[];

@@ -6,15 +6,14 @@ import '../group_code.dart';
 class HandSeed extends Element {
   int _handSeed = 0;
 
-  static final Map<int, HandSeed> _cache =
-      <int, HandSeed>{};
+  static final Map<int, HandSeed> _cache = <int, HandSeed>{};
 
   factory HandSeed() {
     var handSeed = _cache[0];
     if (handSeed != null) return handSeed;
-    return _cache.putIfAbsent(
-      0, () { return HandSeed._internal(0); }
-    );
+    return _cache.putIfAbsent(0, () {
+      return HandSeed._internal(0);
+    });
   }
 
   HandSeed._internal(this._handSeed) {
@@ -25,14 +24,18 @@ class HandSeed extends Element {
   int get handSeed => _handSeed;
   void increase() {
     _handSeed++;
-    var result = groupCodes.firstWhere((code) => code.key == 5 ,orElse: () => null);
+    var result =
+        groupCodes.firstWhere((code) => code.key == 5, orElse: () => null);
     if (result != null) result.value = _handSeed.toRadixString(16);
   }
 
   @override
   Future parse() {
-    var result = groupCodes.firstWhere((code) => code.key == 5 ,orElse: () => null);
-    if (result != null) _handSeed = int.tryParse(result.value, radix: 16) ?? int.parse(result.value);
+    var result =
+        groupCodes.firstWhere((code) => code.key == 5, orElse: () => null);
+    if (result != null)
+      _handSeed =
+          int.tryParse(result.value, radix: 16) ?? int.parse(result.value);
     return null;
   }
 }

@@ -21,7 +21,7 @@ class EntityList<E> extends ListBase<E> {
   }
 
   @override
-  void operator[]=(int index, E value) {
+  void operator []=(int index, E value) {
     innerList[index] = value;
   }
 
@@ -32,13 +32,13 @@ class EntityList<E> extends ListBase<E> {
   void add(E value) {
     var handSeed = HandSeed();
     if (value is AcDbPoint) {
-      value.handle = handSeed.handSeed; 
+      value.handle = handSeed.handSeed;
     } else if (value is AcDbLine) {
-      value.handle = handSeed.handSeed; 
+      value.handle = handSeed.handSeed;
     } else if (value is AcDbPolyline) {
-      value.handle = handSeed.handSeed; 
+      value.handle = handSeed.handSeed;
     } else if (value is AcDbText) {
-      value.handle = handSeed.handSeed; 
+      value.handle = handSeed.handSeed;
     }
     innerList.add(value);
     handSeed.increase();

@@ -1,5 +1,5 @@
 // Copyright (c) 2020 Hanoi University of Mining and Geology, Vietnam. Please
-// see the AUTHOR file for details. All rights reserved. Use of this source 
+// see the AUTHOR file for details. All rights reserved. Use of this source
 // code is governed by a MIT license that can be found in the LICENSE file.
 
 /// A comprehensive, cross-platform DXF manipulation library.
