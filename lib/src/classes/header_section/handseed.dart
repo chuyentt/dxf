@@ -33,9 +33,10 @@ class HandSeed extends Element {
   Future parse() {
     var result =
         groupCodes.firstWhere((code) => code.key == 5, orElse: () => null);
-    if (result != null)
+    if (result != null) {
       _handSeed =
           int.tryParse(result.value, radix: 16) ?? int.parse(result.value);
+    }
     return null;
   }
 }
