@@ -1,4 +1,5 @@
-# DXF package for Dart developers
+# DXF package for Dart and Flutter developers
+[![pub package](https://img.shields.io/pub/v/dxf.svg)](https://pub.dartlang.org/packages/dxf)
 
 DXF package for Dart developers to create, read, update and delete the data in AutoCAD DXF file - a CAD data file format developed by Autodesk.
 

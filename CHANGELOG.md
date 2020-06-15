@@ -29,3 +29,6 @@
 ## 1.0.2+4
 
 - Format code
+
+## 1.0.3
+- Compatible with runtime flutter-web of web

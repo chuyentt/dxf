@@ -14,3 +14,20 @@ build/
 
 # Directory created by dartdoc
 doc/api/
+
+# Visual Studio Code related
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+.dart_tool/
+.flutter-plugins
+.packages
+.pub-cache/
+.pub/
+build/
+
+# test
+test/.test_coverage.dart
+coverage/
+!coverage/lcov.info
