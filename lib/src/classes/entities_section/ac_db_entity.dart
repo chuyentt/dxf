@@ -1,7 +1,7 @@
 import '../group_code.dart';
 
 abstract class AcDbEntity {
-  int handle = 0;
+  int handle = 1024;
 
   final _groupCodes = <GroupCode>[];
   List<GroupCode> get groupCodes => _groupCodes;

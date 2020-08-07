@@ -4,7 +4,7 @@ import '../group_code.dart';
 /// Quản lý handle của bản vẽ, mỗi một đối tượng được thêm vào thì phải lấy handle
 /// Sau khi thêm vào thì tăng handle lên để cho đối tượng khác
 class HandSeed extends Element {
-  int _handSeed = 0;
+  int _handSeed = 1024;
 
   static final Map<int, HandSeed> _cache = <int, HandSeed>{};
 
@@ -17,7 +17,7 @@ class HandSeed extends Element {
   }
 
   HandSeed._internal(this._handSeed) {
-    groupCodes.add(GroupCode(key: 5, value: handSeed));
+    //groupCodes.add(GroupCode(key: 5, value: handSeed));
   }
 
   /// Next available handle

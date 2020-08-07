@@ -41,10 +41,26 @@ abstract class DXF {
   List<UndefinedSection> get undefinedSections => _undefinedSections;
 
   /// Create new DXF file with path
-  static DXF create(String path) {
+  static Future<DXF> create(String path) async {
     var dxf = _DXF();
     dxf._path = path;
-
+    var file = File('./lib/src/seed_2007.dxf');
+    await file.readAsString().then((data) async {
+      var ls = LineSplitter();
+      var lines = ls.convert(data);
+      var keyFlag = false;
+      var groupCodes = <GroupCode>[];
+      var key;
+      await lines.forEach((onValue) async {
+        keyFlag = !keyFlag;
+        if (keyFlag) {
+          key = onValue.trim();
+        } else {
+          groupCodes.add(GroupCode(key: int.parse(key), value: onValue));
+        }
+      });
+      await dxf._parse(groupCodes);
+    }).catchError((onError) => print('Error, could not open seed file'));
     return dxf;
   }
 
@@ -58,16 +74,14 @@ abstract class DXF {
       var lines = ls.convert(data);
       var keyFlag = false;
       var groupCodes = <GroupCode>[];
-      var lastLine;
+      var key;
       await lines.forEach((onValue) async {
         keyFlag = !keyFlag;
-        var line = onValue;
         if (keyFlag) {
-          line = onValue.trim();
+          key = onValue.trim();
         } else {
-          groupCodes.add(GroupCode(key: int.parse(lastLine), value: line));
+          groupCodes.add(GroupCode(key: int.parse(key), value: onValue));
         }
-        lastLine = line;
       });
       await dxf._parse(groupCodes);
     }).catchError((onError) => print('Error, could not open file'));
@@ -133,7 +147,7 @@ class _DXF extends DXF {
             //print(_objectsSection.dxfString);
           } else if (code.isTHUMBNAILIMAGE) {
             _thumbnailImageSection.parse(codes);
-            print(_thumbnailImageSection.dxfString);
+            //print(_thumbnailImageSection.dxfString);
           } else {
             var undefinedSection = UndefinedSection();
             undefinedSection.groupCodes = codes;

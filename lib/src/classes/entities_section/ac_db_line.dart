@@ -82,27 +82,27 @@ class AcDbLine extends AcDbEntity {
 
     result =
         groupCodes.firstWhere((code) => code.key == 10, orElse: () => null);
-    if (result != null) _x = double.tryParse(result.value);
+    if (result != null) _x = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 20, orElse: () => null);
-    if (result != null) _y = double.tryParse(result.value);
+    if (result != null) _y = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 30, orElse: () => null);
-    if (result != null) _z = double.tryParse(result.value);
+    if (result != null) _z = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 11, orElse: () => null);
-    if (result != null) _x1 = double.tryParse(result.value);
+    if (result != null) _x1 = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 21, orElse: () => null);
-    if (result != null) _y1 = double.tryParse(result.value);
+    if (result != null) _y1 = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 31, orElse: () => null);
-    if (result != null) _z1 = double.tryParse(result.value);
+    if (result != null) _z1 = result.value;
 
     return null;
   }

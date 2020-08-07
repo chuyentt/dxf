@@ -6,7 +6,7 @@ void main() {
     DXF dxf;
 
     setUp(() {
-      dxf = DXF.create('example/data/new.dxf');
+      //dxf = DXF.create('example/data/new.dxf');
     });
 
     test('First Test', () {

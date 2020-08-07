@@ -6,10 +6,10 @@ class AcDbPolyline extends AcDbEntity {
   AcDbPolyline({List<List<double>> vertices, bool isClosed = false}) {
     _vertices = vertices;
     _isClosed = isClosed;
-    _nVertices = vertices.length;
+    _nVertices = vertices != null ? vertices.length : 0;
     groupCodes.add(GroupCode(key: 90, value: nVertices));
     groupCodes.add(GroupCode(key: 70, value: isClosed ? 1 : 0));
-    vertices.forEach((vertext) {
+    vertices?.forEach((vertext) {
       groupCodes.add(GroupCode(key: 10, value: vertext[0]));
       groupCodes.add(GroupCode(key: 20, value: vertext[1]));
     });
@@ -31,12 +31,12 @@ class AcDbPolyline extends AcDbEntity {
 
     result =
         groupCodes.firstWhere((code) => code.key == 90, orElse: () => null);
-    if (result != null) _nVertices = int.tryParse(result.value);
+    if (result != null) _nVertices = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 70, orElse: () => null);
     if (result != null) {
-      _isClosed = int.tryParse(result.value) == 1 ? true : false;
+      _isClosed = result.value == 1 ? true : false;
     }
 
     return null;

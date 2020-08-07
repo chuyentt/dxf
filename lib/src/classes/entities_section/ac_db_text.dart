@@ -69,15 +69,15 @@ class AcDbText extends AcDbEntity {
 
     result =
         groupCodes.firstWhere((code) => code.key == 10, orElse: () => null);
-    if (result != null) _x = double.tryParse(result.value);
+    if (result != null) _x = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 20, orElse: () => null);
-    if (result != null) _y = double.tryParse(result.value);
+    if (result != null) _y = result.value;
 
     result =
         groupCodes.firstWhere((code) => code.key == 30, orElse: () => null);
-    if (result != null) _z = double.tryParse(result.value);
+    if (result != null) _z = result.value;
 
     result = groupCodes.firstWhere((code) => code.key == 1, orElse: () => null);
     if (result != null) _value = result.value;
