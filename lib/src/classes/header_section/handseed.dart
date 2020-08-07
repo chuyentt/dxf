@@ -1,5 +1,4 @@
 import '../element.dart';
-import '../group_code.dart';
 
 /// Quản lý handle của bản vẽ, mỗi một đối tượng được thêm vào thì phải lấy handle
 /// Sau khi thêm vào thì tăng handle lên để cho đối tượng khác
@@ -16,9 +15,7 @@ class HandSeed extends Element {
     });
   }
 
-  HandSeed._internal(this._handSeed) {
-    //groupCodes.add(GroupCode(key: 5, value: handSeed));
-  }
+  HandSeed._internal(this._handSeed);
 
   /// Next available handle
   int get handSeed => _handSeed;

@@ -109,6 +109,7 @@ class AcDbLine extends AcDbEntity {
 
   @override
   String get dxfString {
-    return '0\r\nLINE\r\n5\r\n${handle.toRadixString(16)}\r\n8\r\n0\r\n${super.dxfString}';
+    return '0\r\nLINE\r\n5\r\n${handle.toRadixString(16)}\r\n330\r\n1F\r\n100'
+        '\r\nAcDbEntity\r\n8\r\n0\r\n100\r\nAcDbLine\r\n${super.dxfString}';
   }
 }

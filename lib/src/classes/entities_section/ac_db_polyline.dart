@@ -44,6 +44,40 @@ class AcDbPolyline extends AcDbEntity {
 
   @override
   String get dxfString {
-    return '0\r\nLWPOLYLINE\r\n5\r\n${handle.toRadixString(16)}\r\n8\r\n0\r\n${super.dxfString}';
+    return '0\r\nLWPOLYLINE\r\n5\r\n${handle.toRadixString(16)}\r\n330\r\n1F\r\n100'
+        '\r\nAcDbEntity\r\n8\r\n0\r\n100\r\nAcDbPolyline\r\n${super.dxfString}';
   }
 }
+// LWPOLYLINE
+//   5
+// 27F3
+// 330
+// 1F
+// 100
+// AcDbEntity
+//   8
+// 0
+// 100
+// AcDbPolyline
+//  90
+//         4
+//  70
+//      0
+//  43
+// 0.0
+//  10
+// 11.27882492329638
+//  20
+// 10.06054125049451
+//  10
+// 11.83733582655446
+//  20
+// 10.33642862264781
+//  10
+// 11.98846266808385
+//  20
+// 10.97359739211958
+//  10
+// 11.7190629531201
+//  20
+// 11.20350359852801

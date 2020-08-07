@@ -53,25 +53,30 @@ class HeaderSection extends Section {
       if (!groupCode.isSECTION && !groupCode.isHEADER) {
         if (groupCode.key == 9 || groupCode.isENDSEC) {
           switch (variableName) {
-            // case '\$ACADVER':
-            //   _acadVer.groupCodes.addAll(codes);
-            //   _acadVer.parse();
-            //   break;
+            case '\$HANDSEED':
+              _handSeed.groupCodes.addAll(codes);
+              _handSeed.parse();
+              variableName = null;
+              break;
+            case '\$ACADVER':
+              _acadVer.groupCodes.addAll(codes);
+              _acadVer.parse();
+              variableName = null;
+              break;
             // case '\$EXTMIN':
             //   _extMin.groupCodes.addAll(codes);
             //   _extMin.parse();
+            //   variableName = null;
             //   break;
             // case '\$EXTMAX':
             //   _extMax.groupCodes.addAll(codes);
             //   _extMax.parse();
-            //   break;
-            // case '\$HANDSEED':
-            //   _handSeed.groupCodes.addAll(codes);
-            //   _handSeed.parse();
+            //   variableName = null;
             //   break;
             // case '\$TEXTSIZE':
             //   _textSize.groupCodes.addAll(codes);
             //   _textSize.parse();
+            //   variableName = null;
             //   break;
             default:
               if (variableName != null) {
@@ -91,11 +96,11 @@ class HeaderSection extends Section {
   @override
   String get dxfString {
     var str = '';
-    // str += '0\r\nSECTION\r\n2\r\nHEADER\r\n';
-    // str += '9\r\n\$ACADVER\r\n${_acadVer.dxfString}';
-    // str += '9\r\n\$EXTMIN\r\n${_extMin.dxfString}';
+    str += '0\r\nSECTION\r\n2\r\nHEADER\r\n';
+    str += '${_handSeed.dxfString}';
+    str += '${_acadVer.dxfString}';
+    // str += '${_extMin.dxfString}';
     // str += '9\r\n\$EXTMAX\r\n${_extMax.dxfString}';
-    // str += '9\r\n\$HANDSEED\r\n${_handSeed.dxfString}';
     // str += '9\r\n\$TEXTSIZE\r\n${_textSize.dxfString}';
 
     undefinedElements.forEach((m) {
