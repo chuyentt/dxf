@@ -16,26 +16,26 @@ abstract class DXF {
   String _path;
   String get path => _path;
 
-  final HeaderSection _headerSection = HeaderSection();
-  HeaderSection get header => _headerSection;
+  // final HeaderSection _headerSection = HeaderSection();
+  // HeaderSection get header => _headerSection;
 
-  final ClassesSection _classesSection = ClassesSection();
-  ClassesSection get classes => _classesSection;
+  // final ClassesSection _classesSection = ClassesSection();
+  // ClassesSection get classes => _classesSection;
 
-  final TablesSection _tablesSection = TablesSection();
-  TablesSection get tables => _tablesSection;
+  // final TablesSection _tablesSection = TablesSection();
+  // TablesSection get tables => _tablesSection;
 
-  final BlocksSection _blocksSection = BlocksSection();
-  BlocksSection get blocks => _blocksSection;
+  // final BlocksSection _blocksSection = BlocksSection();
+  // BlocksSection get blocks => _blocksSection;
 
-  final EntitiesSection _entitiesSection = EntitiesSection();
-  EntitiesSection get entities => _entitiesSection;
+  // final EntitiesSection _entitiesSection = EntitiesSection();
+  // EntitiesSection get entities => _entitiesSection;
 
-  final ObjectsSection _objectsSection = ObjectsSection();
-  ObjectsSection get objects => _objectsSection;
+  // final ObjectsSection _objectsSection = ObjectsSection();
+  // ObjectsSection get objects => _objectsSection;
 
-  final ThumbnailimageSection _thumbnailImageSection = ThumbnailimageSection();
-  ThumbnailimageSection get thumbnailImage => _thumbnailImageSection;
+  // final ThumbnailimageSection _thumbnailImageSection = ThumbnailimageSection();
+  // ThumbnailimageSection get thumbnailImage => _thumbnailImageSection;
 
   final List<UndefinedSection> _undefinedSections = <UndefinedSection>[];
   List<UndefinedSection> get undefinedSections => _undefinedSections;
@@ -99,13 +99,13 @@ abstract class DXF {
   /// Return DXF String by group codes
   String get dxfString {
     var str = '';
-    str += header.dxfString;
-    str += classes.dxfString;
-    str += tables.dxfString;
-    str += blocks.dxfString;
-    str += entities.dxfString;
-    str += objects.dxfString;
-    str += thumbnailImage.dxfString;
+    // str += header.dxfString;
+    // str += classes.dxfString;
+    // str += tables.dxfString;
+    // str += blocks.dxfString;
+    // str += entities.dxfString;
+    // str += objects.dxfString;
+    // str += thumbnailImage.dxfString;
     for (var section in _undefinedSections) {
       str += section.dxfString;
     }
@@ -127,32 +127,32 @@ class _DXF extends DXF {
         var code = codes[1];
         if (code.key == 2) {
           codes.add(groupCode);
-          if (code.isHEADER) {
-            _headerSection.parse(codes);
-            //print(_headerSection.dxfString);
-          } else if (code.isCLASSES) {
-            _classesSection.parse(codes);
-            //print(_classesSection.dxfString);
-          } else if (code.isTABLES) {
-            _tablesSection.parse(codes);
-            //print(_tablesSection.dxfString);
-          } else if (code.isBLOCKS) {
-            _blocksSection.parse(codes);
-            //print(_blocksSection.dxfString);
-          } else if (code.isENTITIES) {
-            _entitiesSection.parse(codes);
-            //print(_entitiesSection.dxfString);
-          } else if (code.isOBJECTS) {
-            _objectsSection.parse(codes);
-            //print(_objectsSection.dxfString);
-          } else if (code.isTHUMBNAILIMAGE) {
-            _thumbnailImageSection.parse(codes);
-            //print(_thumbnailImageSection.dxfString);
-          } else {
-            var undefinedSection = UndefinedSection();
-            undefinedSection.groupCodes = codes;
-            _undefinedSections.add(undefinedSection);
-          }
+          // if (code.isHEADER) {
+          //   _headerSection.parse(codes);
+          //   //print(_headerSection.dxfString);
+          // } else if (code.isCLASSES) {
+          //   _classesSection.parse(codes);
+          //   //print(_classesSection.dxfString);
+          // } else if (code.isTABLES) {
+          //   _tablesSection.parse(codes);
+          //   //print(_tablesSection.dxfString);
+          // } else if (code.isBLOCKS) {
+          //   _blocksSection.parse(codes);
+          //   //print(_blocksSection.dxfString);
+          // } else if (code.isENTITIES) {
+          //   _entitiesSection.parse(codes);
+          //   //print(_entitiesSection.dxfString);
+          // } else if (code.isOBJECTS) {
+          //   _objectsSection.parse(codes);
+          //   //print(_objectsSection.dxfString);
+          // } else if (code.isTHUMBNAILIMAGE) {
+          //   _thumbnailImageSection.parse(codes);
+          //   //print(_thumbnailImageSection.dxfString);
+          // } else {
+          var undefinedSection = UndefinedSection();
+          undefinedSection.groupCodes = codes;
+          _undefinedSections.add(undefinedSection);
+          // }
         }
         codes = <GroupCode>[];
       } else {
