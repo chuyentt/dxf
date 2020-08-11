@@ -68,6 +68,6 @@ class GroupCode {
   }
 
   String get dxfString {
-    return '${code.toString().padLeft(3, ' ')}\r\n$value';
+    return '${code.toString().padLeft(3, ' ')}\r\n$value\r\n';
   }
 }

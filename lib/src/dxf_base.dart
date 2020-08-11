@@ -62,7 +62,6 @@ class DXF {
             _blocksSection = await BlocksSection.fromGroupCodes(codes);
           } else if (_element.isENTITIES) {
             _entitiesSection = await EntitiesSection.fromGroupCodes(codes);
-            _entitiesSection.headerSection = _headerSection;
           } else if (_element.isOBJECTS) {
             _objectsSection = await ObjectsSection.fromGroupCodes(codes);
           }
@@ -101,12 +100,12 @@ class DXF {
     return _dxf;
   }
 
-  void save({String newPath}) {
+  Future<void> save({String newPath}) async {
     var filePath = newPath ?? _filePath;
     var file = File(filePath);
 
     // Write the file.
-    var fileHandle = file.openWrite(mode: FileMode.write);
+    var fileHandle = file.openWrite(mode: FileMode.writeOnly);
 
     /// Header Section
     _headerSection.groupCodes.forEach((element) {
@@ -134,10 +133,6 @@ class DXF {
 
     /// Entities Section
     fileHandle.writeln(_entitiesSection.dxfString);
-    // _entitiesSection.groupCodes.forEach((element) {
-    //   fileHandle.writeln(element.code.toString().padLeft(3, ' '));
-    //   fileHandle.writeln(element.value);
-    // });
 
     /// Objects Section
     _objectsSection.groupCodes.forEach((element) {
@@ -149,6 +144,6 @@ class DXF {
     fileHandle.writeln(0.toString().padLeft(3, ' '));
     fileHandle.writeln('EOF');
 
-    fileHandle.close();
+    await fileHandle.close();
   }
 }

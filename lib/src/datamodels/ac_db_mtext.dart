@@ -64,7 +64,7 @@ class AcDbMText extends AcDbEntityBase {
   String get dxfString {
     var str = '';
     _groupCodes.forEach((element) {
-      str += element.dxfString + '\r\n';
+      str += element.dxfString;
     });
     return str;
   }

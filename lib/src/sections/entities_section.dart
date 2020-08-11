@@ -5,11 +5,10 @@ import './../datamodels/ac_db_line.dart';
 import './../datamodels/ac_db_mtext.dart';
 import './../datamodels/ac_db_polyline.dart';
 import './../datamodels/ac_db_text.dart';
-import 'header_section.dart';
 
 class EntitiesSection {
   final _entities = <AcDbEntityBase>[];
-  HeaderSection headerSection;
+  List<AcDbEntityBase> get entities => _entities;
 
   EntitiesSection._init();
   static Future<EntitiesSection> fromGroupCodes(

@@ -2569,30 +2569,6 @@ AcDbPolyline
  20
 14.0
   0
-TEXT
-  5
-277
-330
-1F
-100
-AcDbEntity
-  8
-0
-100
-AcDbText
- 10
-11.0
- 20
-20.0
- 30
-0.0
- 40
-2.5
-  1
-Hello!
-100
-AcDbText
-  0
 MTEXT
   5
 278

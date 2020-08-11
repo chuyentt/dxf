@@ -57,9 +57,16 @@ Future<void> main() async {
   );
   dxf.addEntities(mtext);
 
-  dxf.save();
+  print('Saving...');
+  await dxf.save().then((_) {
+    print('Saved!');
+  });
 
-  // var e = dxf.getEntityByHandle(handle1);
-  // dxf.removeEntity(e);
-  // dxf.save();
+  var e = dxf.getEntityByHandle(handle1);
+  dxf.removeEntity(e);
+
+  print('Saving...');
+  await dxf.save().then((_) {
+    print('Saved!');
+  });
 }
