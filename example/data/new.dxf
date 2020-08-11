@@ -545,7 +545,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-279
+27a
   9
 $SURFTAB1
  70
@@ -2568,6 +2568,30 @@ AcDbPolyline
 27.0
  20
 14.0
+  0
+TEXT
+  5
+277
+330
+1F
+100
+AcDbEntity
+  8
+0
+100
+AcDbText
+ 10
+11.0
+ 20
+20.0
+ 30
+0.0
+ 40
+2.5
+  1
+Trần Trung Chuyên
+100
+AcDbText
   0
 MTEXT
   5

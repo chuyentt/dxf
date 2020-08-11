@@ -44,7 +44,7 @@ Future<void> main() async {
     handle1,
     x: 11,
     y: 20,
-    value: 'Hello!',
+    textString: 'Hello!',
   );
   dxf.addEntities(text);
 
@@ -62,8 +62,15 @@ Future<void> main() async {
     print('Saved!');
   });
 
-  var e = dxf.getEntityByHandle(handle1);
+  var e = dxf.getEntityByHandle(handle);
   dxf.removeEntity(e);
+
+  var e1 = dxf.getEntityByHandle(handle1);
+  if (e1 is AcDbText) {
+    e1.textString = 'Trần Trung Chuyên';
+  }
+
+  dxf.addEntities(mtext);
 
   print('Saving...');
   await dxf.save().then((_) {

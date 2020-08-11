@@ -19,9 +19,10 @@ class AcDbText implements AcDbEntity {
       {double x = 0,
       double y = 0,
       double z = 0,
-      String value = '',
+      String textString = '',
       double textHeight = 2.5,
-      String layer = '0'}) {
+      String layer = '0'})
+      : _textString = textString {
     _groupCodes.add(GroupCode(0, 'TEXT'));
     _groupCodes.add(GroupCode(5, handle.toRadixString(16)));
     _groupCodes.add(GroupCode(330, '1F'));
@@ -32,8 +33,19 @@ class AcDbText implements AcDbEntity {
     _groupCodes.add(GroupCode(20, y));
     _groupCodes.add(GroupCode(30, z));
     _groupCodes.add(GroupCode(40, textHeight));
-    _groupCodes.add(GroupCode(1, value));
+    _groupCodes.add(GroupCode(1, textString));
     _groupCodes.add(GroupCode(100, 'AcDbText'));
+  }
+
+  String _textString = '';
+  String get textString => _textString;
+  set textString(String value) {
+    var result = _groupCodes.firstWhere((element) => element.code == 1,
+        orElse: () => null);
+    if (result != null) {
+      _textString = value;
+      result.value = value;
+    }
   }
 
   @override
