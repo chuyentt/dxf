@@ -1,164 +1,154 @@
 import 'dart:convert';
 import 'package:universal_io/io.dart';
 
-import 'classes/group_code.dart';
-import 'classes/section.dart';
-import 'classes/header_section/header_section.dart';
-import 'classes/classes_section/classes_section.dart';
-import 'classes/tables_section/tables_section.dart';
-import 'classes/blocks_section/blocks_section.dart';
-import 'classes/entities_section/entities_section.dart';
-import 'classes/objects_section/objects_section.dart';
-import 'classes/thumbnailimage_section/thumbnailimage_section.dart';
+import 'sections/classes_section.dart';
+import 'sections/blocks_section.dart';
+import 'sections/entities_section.dart';
+import 'sections/header_section.dart';
+import 'sections/objects_section.dart';
+import 'sections/tables_section.dart';
+import 'datamodels/group_code.dart';
+import 'datamodels/ac_db_entity.dart';
 
-/// DXF abstract class
-abstract class DXF {
-  String _path;
-  String get path => _path;
+class DXF {
+  final _groupCodes = <GroupCode>[];
 
-  final HeaderSection _headerSection = HeaderSection();
-  HeaderSection get header => _headerSection;
+  String _filePath;
 
-  // final ClassesSection _classesSection = ClassesSection();
-  // ClassesSection get classes => _classesSection;
+  HeaderSection _headerSection;
+  ClassesSection _classesSection;
+  TablesSection _tablesSection;
+  BlocksSection _blocksSection;
+  EntitiesSection _entitiesSection;
+  ObjectsSection _objectsSection;
 
-  // final TablesSection _tablesSection = TablesSection();
-  // TablesSection get tables => _tablesSection;
+  int get nextHandle => _headerSection.nextHandle;
 
-  // final BlocksSection _blocksSection = BlocksSection();
-  // BlocksSection get blocks => _blocksSection;
-
-  final EntitiesSection _entitiesSection = EntitiesSection();
-  EntitiesSection get entities => _entitiesSection;
-
-  // final ObjectsSection _objectsSection = ObjectsSection();
-  // ObjectsSection get objects => _objectsSection;
-
-  // final ThumbnailimageSection _thumbnailImageSection = ThumbnailimageSection();
-  // ThumbnailimageSection get thumbnailImage => _thumbnailImageSection;
-
-  final List<UndefinedSection> _undefinedSections = <UndefinedSection>[];
-  List<UndefinedSection> get undefinedSections => _undefinedSections;
-
-  /// Create new DXF file with path
-  static Future<DXF> create(String path) async {
-    var dxf = _DXF();
-    dxf._path = path;
-    var file = File('./seed_2007.dxf');
-    await file.readAsString().then((data) async {
-      var ls = LineSplitter();
-      var lines = ls.convert(data);
-      var keyFlag = false;
-      var groupCodes = <GroupCode>[];
-      var key;
-      await lines.forEach((onValue) async {
-        keyFlag = !keyFlag;
-        if (keyFlag) {
-          key = onValue.trim();
-        } else {
-          groupCodes.add(GroupCode(key: int.parse(key), value: onValue));
-        }
-      });
-      await dxf._parse(groupCodes);
-    }).catchError((onError) => print('Error, could not open seed file'));
-    return dxf;
+  void addEntities(AcDbEntityBase entity) {
+    _entitiesSection.addEntity(entity);
+    _headerSection.increase();
   }
 
-  /// Read a DXF file from path
-  static Future<DXF> load(String path) async {
-    var file = File(path);
-    var dxf = _DXF();
-    dxf._path = path;
-    await file.readAsString().then((data) async {
-      var ls = LineSplitter();
-      var lines = ls.convert(data);
-      var keyFlag = false;
-      var groupCodes = <GroupCode>[];
-      var key;
-      await lines.forEach((onValue) async {
-        keyFlag = !keyFlag;
-        if (keyFlag) {
-          key = onValue.trim();
-        } else {
-          groupCodes.add(GroupCode(key: int.parse(key), value: onValue));
-        }
-      });
-      await dxf._parse(groupCodes);
-    }).catchError((onError) => print('Error, could not open file'));
-    return dxf;
+  AcDbEntityBase getEntityByHandle(int handle) {
+    return _entitiesSection.getEntityByHandle(handle);
   }
 
-  /// Save DXF data to path or new path
-  Future<File> save({String newPath}) async {
-    var filePath = newPath ?? path;
-    var file = File(filePath);
-    // Write the file.
-    return file.writeAsString(dxfString);
+  void removeEntity(AcDbEntityBase entity) {
+    _entitiesSection.removeEntity(entity);
   }
 
-  /// Return DXF String by group codes
-  String get dxfString {
-    var str = '';
-    str += header.dxfString;
-    // str += classes.dxfString;
-    // str += tables.dxfString;
-    // str += blocks.dxfString;
-
-    // str += objects.dxfString;
-    // str += thumbnailImage.dxfString;
-    for (var section in _undefinedSections) {
-      str += section.dxfString;
-    }
-    str += entities.dxfString;
-    return str + '0\r\nEOF';
+  DXF._init(String filePath) {
+    _filePath = filePath;
   }
-}
 
-/// DXF private class
-class _DXF extends DXF {
-  void _parse(List<GroupCode> groupCodes) {
-    if (groupCodes.length < 4 && groupCodes.length % 2 != 0) return null;
-
+  Future<void> _parse() async {
     var codes = <GroupCode>[];
-
-    groupCodes.forEach((groupCode) {
-      if (groupCode.isSECTION) {
-        codes.add(groupCode);
-      } else if (groupCode.isENDSEC) {
-        var code = codes[1];
-        if (code.key == 2) {
-          codes.add(groupCode);
-          if (code.isHEADER) {
-            _headerSection.parse(codes);
-            //print(_headerSection.dxfString);
-            // } else if (code.isCLASSES) {
-            //   _classesSection.parse(codes);
-            //   //print(_classesSection.dxfString);
-            // } else if (code.isTABLES) {
-            //   _tablesSection.parse(codes);
-            //   //print(_tablesSection.dxfString);
-            // } else if (code.isBLOCKS) {
-            //   _blocksSection.parse(codes);
-            //   //print(_blocksSection.dxfString);
-          } else if (code.isENTITIES) {
-            _entitiesSection.parse(codes);
-            //print(_entitiesSection.dxfString);
-            // } else if (code.isOBJECTS) {
-            //   _objectsSection.parse(codes);
-            //   //print(_objectsSection.dxfString);
-            // } else if (code.isTHUMBNAILIMAGE) {
-            //   _thumbnailImageSection.parse(codes);
-            //   //print(_thumbnailImageSection.dxfString);
-          } else {
-            var undefinedSection = UndefinedSection();
-            undefinedSection.groupCodes = codes;
-            _undefinedSections.add(undefinedSection);
+    _groupCodes.forEach((element) async {
+      if (element.isSECTION) {
+        codes = [];
+        codes.add(element);
+      } else if (codes.isNotEmpty) {
+        codes.add(element);
+        if (element.isENDSEC) {
+          var _element = codes[1];
+          assert(_element.code == 2);
+          if (_element.isHEADER) {
+            _headerSection = await HeaderSection.fromGroupCodes(codes);
+          } else if (_element.isCLASSES) {
+            _classesSection = await ClassesSection.fromGroupCodes(codes);
+          } else if (_element.isTABLES) {
+            _tablesSection = await TablesSection.fromGroupCodes(codes);
+          } else if (_element.isBLOCKS) {
+            _blocksSection = await BlocksSection.fromGroupCodes(codes);
+          } else if (_element.isENTITIES) {
+            _entitiesSection = await EntitiesSection.fromGroupCodes(codes);
+            _entitiesSection.headerSection = _headerSection;
+          } else if (_element.isOBJECTS) {
+            _objectsSection = await ObjectsSection.fromGroupCodes(codes);
           }
         }
-        codes = <GroupCode>[];
-      } else {
-        codes.add(groupCode);
       }
     });
+  }
+
+  Future _load(String filePath) async {
+    var file = File(filePath);
+    await file.readAsString().then((data) async {
+      var lines = LineSplitter().convert(data);
+      int code;
+      await lines.forEach((dynamic value) async {
+        if (code != null) {
+          _groupCodes.add(GroupCode(code, value));
+          code = null;
+        } else {
+          code = int.tryParse(value);
+        }
+      });
+    }).catchError((onError) => print('Error, could not open file'));
+  }
+
+  static Future<DXF> create(String filePath) async {
+    var _dxf = DXF._init(filePath);
+    await _dxf._load('./seed_2007.dxf');
+    await _dxf._parse();
+    return _dxf;
+  }
+
+  static Future<DXF> load(String filePath) async {
+    var _dxf = DXF._init(filePath);
+    await _dxf._load(filePath);
+    await _dxf._parse();
+    return _dxf;
+  }
+
+  void save({String newPath}) {
+    var filePath = newPath ?? _filePath;
+    var file = File(filePath);
+
+    // Write the file.
+    var fileHandle = file.openWrite(mode: FileMode.write);
+
+    /// Header Section
+    _headerSection.groupCodes.forEach((element) {
+      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
+      fileHandle.writeln(element.value);
+    });
+
+    /// Classes Section
+    _classesSection.groupCodes.forEach((element) {
+      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
+      fileHandle.writeln(element.value);
+    });
+
+    /// Tables Section
+    _tablesSection.groupCodes.forEach((element) {
+      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
+      fileHandle.writeln(element.value);
+    });
+
+    /// Blocks Section
+    _blocksSection.groupCodes.forEach((element) {
+      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
+      fileHandle.writeln(element.value);
+    });
+
+    /// Entities Section
+    fileHandle.writeln(_entitiesSection.dxfString);
+    // _entitiesSection.groupCodes.forEach((element) {
+    //   fileHandle.writeln(element.code.toString().padLeft(3, ' '));
+    //   fileHandle.writeln(element.value);
+    // });
+
+    /// Objects Section
+    _objectsSection.groupCodes.forEach((element) {
+      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
+      fileHandle.writeln(element.value);
+    });
+
+    /// EOF
+    fileHandle.writeln(0.toString().padLeft(3, ' '));
+    fileHandle.writeln('EOF');
+
+    fileHandle.close();
   }
 }

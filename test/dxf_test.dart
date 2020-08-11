@@ -10,7 +10,7 @@ void main() {
     });
 
     test('First Test', () {
-      expect(dxf.path, !null);
+      expect(dxf.nextHandle, !null);
     });
   });
 }
