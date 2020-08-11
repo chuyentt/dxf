@@ -32,3 +32,6 @@
 
 ## 1.0.3
 - Compatible with runtime flutter-web of web
+
+## 1.1.0
+- Package restructuring

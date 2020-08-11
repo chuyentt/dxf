@@ -22,31 +22,82 @@ void main() {
 ```dart
 import 'package:dxf/dxf.dart';
 
-void main() {
-  // var launchTime = DateTime.now();
-  // DXF.load('example/data/r18.dxf').then((DXF dxf) {
-  //   dxf.save(newPath: 'example/data/r18s.dxf');
-  //   print(DateTime.now().difference(launchTime));
-  // });
+Future<void> main() async {
+  var dxf = await DXF.create('example/data/new.dxf');
+  var point = AcDbPoint(dxf.nextHandle, x: 10, y: 10.5);
+  dxf.addEntities(point);
 
-  var dxf = DXF.create('example/data/new.dxf');
-  
-  var p = AcDbPoint(x: 10, y: 10.5);
-  
-  dxf.entities.points.add(p);
-  var l = AcDbLine(x: 10.1, y: 10.1, z: 10.1, x1: 10.2, y1: 10.2, z1: 10.2);
-  dxf.entities.lines.add(l);
+  var line = AcDbLine(
+    dxf.nextHandle,
+    x: 12.2,
+    y: 11.5,
+    x1: 22.0,
+    y1: 13.6,
+  );
+  dxf.addEntities(line);
 
-  var t = AcDbText(x: 10.1, y: 10.1, z: 10.1, value: 'Xin chào');
-  dxf.entities.texts.add(t);
-  
   var vertices = <List<double>>[];
-  vertices.addAll([[10.0,11.0], [10.2, 11.2], [10.4,10.3]]);
+  vertices.addAll([
+    [25, 11],
+    [21, 18],
+    [23, 23]
+  ]);
+  var pl = AcDbPolyline(
+    dxf.nextHandle,
+    vertices: vertices,
+    isClosed: false,
+  );
+  dxf.addEntities(pl);
 
-  var pl = AcDbPolyline(vertices: vertices, isClosed: true);
-  dxf.entities.polylines.add(pl);
-  //print(dxf.dxfString);
-  dxf.save();
+  var closedPl = AcDbPolyline(
+    dxf.nextHandle,
+    vertices: [
+      [27, 20],
+      [36, 20],
+      [35, 14],
+      [27, 14]
+    ],
+    isClosed: true,
+  );
+
+  dxf.addEntities(closedPl);
+  var handle1 = dxf.nextHandle;
+  var text = AcDbText(
+    handle1,
+    x: 11,
+    y: 20,
+    textString: 'Hello!',
+  );
+  dxf.addEntities(text);
+
+  var handle = dxf.nextHandle;
+  var mtext = AcDbMText(
+    handle,
+    x: 19,
+    y: 7,
+    value: 'Hello!\\PXin chào!',
+  );
+  dxf.addEntities(mtext);
+
+  print('Saving...');
+  await dxf.save().then((_) {
+    print('Saved!');
+  });
+
+  var e = dxf.getEntityByHandle(handle);
+  dxf.removeEntity(e);
+
+  var e1 = dxf.getEntityByHandle(handle1);
+  if (e1 is AcDbText) {
+    e1.textString = 'Trần Trung Chuyên';
+  }
+
+  dxf.addEntities(mtext);
+
+  print('Saving...');
+  await dxf.save().then((_) {
+    print('Saved!');
+  });
 }
 ```
 
