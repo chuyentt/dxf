@@ -1,9 +1,9 @@
 import 'group_code.dart';
 import 'ac_db_entity.dart';
 
-class AcDbLine extends AcDbEntityBase {
+class AcDbLine implements AcDbEntity {
   final List<GroupCode> _groupCodes = <GroupCode>[];
-  int _handle;
+  final int _handle;
   AcDbLine._init(this._handle);
   static Future<AcDbLine> fromGroupCodes(List<GroupCode> codes) async {
     int handle;

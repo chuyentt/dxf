@@ -1,7 +1,7 @@
 import 'group_code.dart';
 import 'ac_db_entity.dart';
 
-class AcDbPolyline extends AcDbEntityBase {
+class AcDbPolyline implements AcDbEntity {
   final List<GroupCode> _groupCodes = <GroupCode>[];
   final int _handle;
   AcDbPolyline._init(this._handle);

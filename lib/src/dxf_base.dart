@@ -24,16 +24,16 @@ class DXF {
 
   int get nextHandle => _headerSection.nextHandle;
 
-  void addEntities(AcDbEntityBase entity) {
+  void addEntities(AcDbEntity entity) {
     _entitiesSection.addEntity(entity);
     _headerSection.increase();
   }
 
-  AcDbEntityBase getEntityByHandle(int handle) {
+  AcDbEntity getEntityByHandle(int handle) {
     return _entitiesSection.getEntityByHandle(handle);
   }
 
-  void removeEntity(AcDbEntityBase entity) {
+  void removeEntity(AcDbEntity entity) {
     _entitiesSection.removeEntity(entity);
   }
 

@@ -7,8 +7,8 @@ import './../datamodels/ac_db_polyline.dart';
 import './../datamodels/ac_db_text.dart';
 
 class EntitiesSection {
-  final _entities = <AcDbEntityBase>[];
-  List<AcDbEntityBase> get entities => _entities;
+  final _entities = <AcDbEntity>[];
+  List<AcDbEntity> get entities => _entities;
 
   EntitiesSection._init();
   static Future<EntitiesSection> fromGroupCodes(
@@ -49,15 +49,15 @@ class EntitiesSection {
     return _section;
   }
 
-  void addEntity(AcDbEntityBase entity) {
+  void addEntity(AcDbEntity entity) {
     _entities.add(entity);
   }
 
-  void removeEntity(AcDbEntityBase entity) {
+  void removeEntity(AcDbEntity entity) {
     _entities.remove(entity);
   }
 
-  AcDbEntityBase getEntityByHandle(int handle) {
+  AcDbEntity getEntityByHandle(int handle) {
     var entity = _entities.where((element) => element.handle == handle).first;
     return entity;
   }

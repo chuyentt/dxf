@@ -1,14 +1,8 @@
 import 'group_code.dart';
-
-abstract class AcDbEntityBase {
-  final List<GroupCode> _groupCodes = <GroupCode>[];
-
-  int get handle;
-
-  String get dxfString;
-}
+import 'entity_base.dart';
 
 class AcDbEntity extends AcDbEntityBase {
+  final List<GroupCode> _groupCodes = <GroupCode>[];
   final int _handle;
   AcDbEntity._init(this._handle);
   static Future<AcDbEntity> fromGroupCodes(List<GroupCode> codes) async {

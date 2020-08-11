@@ -1,7 +1,7 @@
 import 'group_code.dart';
 import 'ac_db_entity.dart';
 
-class AcDbText extends AcDbEntityBase {
+class AcDbText implements AcDbEntity {
   final List<GroupCode> _groupCodes = <GroupCode>[];
   final int _handle;
   AcDbText._init(this._handle);
