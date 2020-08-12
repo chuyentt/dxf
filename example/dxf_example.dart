@@ -26,6 +26,9 @@ Future<void> main() async {
     isClosed: false,
   );
   dxf.addEntities(pl);
+  pl.vertices.addAll([
+    [24, 25]
+  ]);
 
   var closedPl = AcDbPolyline(
     dxf.nextHandle,
