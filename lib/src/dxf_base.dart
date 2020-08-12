@@ -37,6 +37,8 @@ class DXF {
     _entitiesSection.removeEntity(entity);
   }
 
+  List<AcDbEntity> get entities => _entitiesSection.entities;
+
   DXF._init(String filePath) {
     _filePath = filePath;
   }

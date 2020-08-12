@@ -80,6 +80,10 @@ Future<void> main() async {
     print('Saved!');
   });
 
+  dxf.entities.forEach((element) {
+    print(element.dxfString);
+  });
+
   print('Loading...');
   var dxfr18 = await DXF.load('example/data/r18.dxf');
   await dxfr18.save(newPath: 'example/data/r18s.dxf').then((value) {
