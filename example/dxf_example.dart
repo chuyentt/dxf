@@ -53,7 +53,7 @@ Future<void> main() async {
     handle,
     x: 19,
     y: 7,
-    value: 'Hello!\\PXin chào!',
+    textString: 'Hello!\\PXin chào!',
   );
   dxf.addEntities(mtext);
 
