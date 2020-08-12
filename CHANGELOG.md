@@ -35,3 +35,6 @@
 
 ## 1.1.0
 - Package restructuring
+
+## 1.2.0
+- Completed data model

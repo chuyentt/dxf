@@ -48,6 +48,9 @@ Future<void> main() async {
     isClosed: false,
   );
   dxf.addEntities(pl);
+  pl.vertices.addAll([
+    [24, 25]
+  ]);
 
   var closedPl = AcDbPolyline(
     dxf.nextHandle,
@@ -75,7 +78,7 @@ Future<void> main() async {
     handle,
     x: 19,
     y: 7,
-    value: 'Hello!\\PXin chào!',
+    textString: 'Hello!\\PXin chào!',
   );
   dxf.addEntities(mtext);
 
@@ -96,6 +99,12 @@ Future<void> main() async {
 
   print('Saving...');
   await dxf.save().then((_) {
+    print('Saved!');
+  });
+
+  print('Loading...');
+  var dxfr18 = await DXF.load('example/data/r18.dxf');
+  await dxfr18.save(newPath: 'example/data/r18s.dxf').then((value) {
     print('Saved!');
   });
 }
