@@ -25,6 +25,15 @@ class AcDbPolyline implements AcDbEntity {
       _acDbEntity._layerName = result.value;
     }
 
+    codes.forEach((element) {
+      if (element.code == 10) {
+        _acDbEntity._vertices.add([double.parse(element.value)]);
+        _acDbEntity._groupCodes.remove(element);
+      } else if (element.code == 20) {
+        _acDbEntity._vertices.last.add(double.parse(element.value));
+        _acDbEntity._groupCodes.remove(element);
+      }
+    });
     return _acDbEntity;
   }
 

@@ -86,6 +86,12 @@ Future<void> main() async {
 
   print('Loading...');
   var dxfr18 = await DXF.load('example/data/r18.dxf');
+  dxfr18.entities.forEach((element) {
+    if (element.runtimeType == AcDbPolyline) {
+      AcDbPolyline pl = element;
+      print(pl.vertices.length);
+    }
+  });
   await dxfr18.save(newPath: 'example/data/r18s.dxf').then((value) {
     print('Saved!');
   });

@@ -38,3 +38,6 @@
 
 ## 1.2.0
 - Completed data model
+
+## 1.2.1
+- Fixed AcDbPolyline mising vertices
