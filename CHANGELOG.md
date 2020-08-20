@@ -41,3 +41,6 @@
 
 ## 1.2.1
 - Fixed AcDbPolyline mising vertices
+
+## 1.2.1+1
+- Exported AcDbEntity data model

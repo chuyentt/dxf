@@ -11,3 +11,4 @@ export 'src/datamodels/ac_db_line.dart';
 export 'src/datamodels/ac_db_polyline.dart';
 export 'src/datamodels/ac_db_text.dart';
 export 'src/datamodels/ac_db_mtext.dart';
+export 'src/datamodels/ac_db_entity.dart';
