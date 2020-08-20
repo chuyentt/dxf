@@ -14,6 +14,7 @@ class DXF {
   final _groupCodes = <GroupCode>[];
 
   String _filePath;
+  String get path => _filePath;
 
   HeaderSection _headerSection;
   ClassesSection _classesSection;
