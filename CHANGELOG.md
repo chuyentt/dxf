@@ -47,3 +47,6 @@
 
 ## 1.2.2
 - Added path property
+
+## 1.2.2+5
+- Fix the assets

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:universal_io/io.dart';
+import 'package:flutter/src/services/asset_bundle.dart';
 
 import 'sections/classes_section.dart';
 import 'sections/blocks_section.dart';
@@ -86,14 +87,29 @@ class DXF {
           code = int.tryParse(value);
         }
       });
-    }).catchError((onError) => print('Error, could not open file'));
+    }).catchError((onError) {
+      print(onError ?? 'Unknow error!');
+    });
   }
 
   static Future<DXF> create(String filePath) async {
     var _dxf = DXF._init(filePath);
-    await _dxf._load('./seed_2007.dxf');
-    await _dxf._parse();
-    return _dxf;
+    return await rootBundle
+        .loadString('packages/dxf/assets/seed_2007.dxf', cache: true)
+        .then((data) async {
+      var lines = LineSplitter().convert(data);
+      int code;
+      await lines.forEach((dynamic value) async {
+        if (code != null) {
+          _dxf._groupCodes.add(GroupCode(code, value));
+          code = null;
+        } else {
+          code = int.tryParse(value);
+        }
+      });
+      await _dxf._parse();
+      return _dxf;
+    });
   }
 
   static Future<DXF> load(String filePath) async {

@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Dart",
-            "program": "example/dxf_example.dart",
+            "program": "example/lib/main.dart",
             "request": "launch",
             "type": "dart"
         }
