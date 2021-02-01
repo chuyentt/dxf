@@ -1,10 +1,11 @@
-import './../../dxf.dart';
-import './../datamodels/group_code.dart';
-import './../datamodels/ac_db_entity.dart';
-import './../datamodels/ac_db_line.dart';
-import './../datamodels/ac_db_mtext.dart';
-import './../datamodels/ac_db_polyline.dart';
-import './../datamodels/ac_db_text.dart';
+import '../../dxf.dart';
+import '../datamodels/group_code.dart';
+import '../datamodels/ac_db_entity.dart';
+import '../datamodels/ac_db_circle.dart';
+import '../datamodels/ac_db_line.dart';
+import '../datamodels/ac_db_mtext.dart';
+import '../datamodels/ac_db_polyline.dart';
+import '../datamodels/ac_db_text.dart';
 
 class EntitiesSection {
   final _entities = <AcDbEntity>[];
@@ -22,7 +23,10 @@ class EntitiesSection {
         codes.add(element);
         if (_codes.isNotEmpty) {
           var _element = _codes[0];
-          if (_element.isAcDbPoint) {
+          if (_element.isAcDbCircle) {
+            var item = await AcDbCircle.fromGroupCodes(_codes);
+            _section._entities.add(item);
+          } else if (_element.isAcDbPoint) {
             var item = await AcDbPoint.fromGroupCodes(_codes);
             _section._entities.add(item);
           } else if (_element.isAcDbLine) {
@@ -58,7 +62,8 @@ class EntitiesSection {
   }
 
   AcDbEntity getEntityByHandle(int handle) {
-    var entity = _entities.where((element) => element.handle == handle).first;
+    var entity =
+        _entities.where((element) => element.handle == handle).first;
     return entity;
   }
 

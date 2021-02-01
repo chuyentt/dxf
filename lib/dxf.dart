@@ -6,6 +6,7 @@
 library dxf;
 
 export 'src/dxf_base.dart';
+export 'src/datamodels/ac_db_circle.dart';
 export 'src/datamodels/ac_db_point.dart';
 export 'src/datamodels/ac_db_line.dart';
 export 'src/datamodels/ac_db_polyline.dart';

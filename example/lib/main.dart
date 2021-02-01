@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:dxf/dxf.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 void main() {
@@ -62,6 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
     var dxf = await DXF.create(path);
     var point = AcDbPoint(dxf.nextHandle, x: 10, y: 10.5);
     dxf.addEntities(point);
+
+    var circle = AcDbCircle(
+      dxf.nextHandle,
+      x: 7.0,
+      y: 14.0,
+      z: 0,
+      r: 10.0,
+    );
+    dxf.addEntities(circle);
 
     var line = AcDbLine(
       dxf.nextHandle,
@@ -142,17 +153,23 @@ class _MyHomePageState extends State<MyHomePage> {
       print(element.dxfString);
     });
 
-    // print('Loading...');
-    // var dxfr18 = await DXF.load('assets/data/r18.dxf');
-    // dxfr18.entities.forEach((element) {
-    //   if (element.runtimeType == AcDbPolyline) {
-    //     AcDbPolyline pl = element;
-    //     print(pl.vertices.length);
-    //   }
-    // });
-    // await dxfr18.save(newPath: 'assets/data/r18s.dxf').then((value) {
-    //   print('Saved!');
-    // });
+    print('Loading...');
+    final content = await rootBundle.load('assets/data/r18.dxf');
+    File newFile = File('${docDir.path}/r18.dxf');
+    newFile.writeAsBytesSync(content.buffer.asUint8List());
+
+    final r18Path = join(docDir.path, 'r18.dxf');
+    var dxfr18 = await DXF.load(r18Path);
+    dxfr18.entities.forEach((element) {
+      if (element.runtimeType == AcDbPolyline) {
+        AcDbPolyline pl = element;
+        print(pl.vertices.length);
+      }
+    });
+    await dxfr18.save(newPath: '${docDir.path}/r18s.dxf').then((value) {
+      print('Saved!');
+    });
+    print(newFile);
   }
 
   int _counter = 0;

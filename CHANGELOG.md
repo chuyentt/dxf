@@ -50,3 +50,9 @@
 
 ## 1.2.2+5
 - Fix the assets
+
+## 1.2.3
+- Fix the assets
+
+## 1.3.0
+- Add support AcDbCircle entity

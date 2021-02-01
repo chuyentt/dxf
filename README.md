@@ -27,6 +27,15 @@ Future<void> main() async {
   var point = AcDbPoint(dxf.nextHandle, x: 10, y: 10.5);
   dxf.addEntities(point);
 
+  var circle = AcDbCircle(
+    dxf.nextHandle,
+    x: 7.0,
+    y: 14.0,
+    z: 0,
+    r: 10.0,
+  );
+  dxf.addEntities(circle);
+
   var line = AcDbLine(
     dxf.nextHandle,
     x: 12.2,

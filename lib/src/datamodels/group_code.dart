@@ -47,6 +47,10 @@ class GroupCode {
     return code == 0 && value.toString().toUpperCase() == value;
   }
 
+  bool get isAcDbCircle {
+    return code == 0 && value.toString() == 'CIRCLE';
+  }
+
   bool get isAcDbPoint {
     return code == 0 && value.toString() == 'POINT';
   }
