@@ -1,11 +1,4 @@
-import '../../dxf.dart';
-import '../datamodels/group_code.dart';
-import '../datamodels/ac_db_entity.dart';
-import '../datamodels/ac_db_circle.dart';
-import '../datamodels/ac_db_line.dart';
-import '../datamodels/ac_db_mtext.dart';
-import '../datamodels/ac_db_polyline.dart';
-import '../datamodels/ac_db_text.dart';
+part of dxf;
 
 class EntitiesSection {
   final _entities = <AcDbEntity>[];
@@ -62,8 +55,7 @@ class EntitiesSection {
   }
 
   AcDbEntity getEntityByHandle(int handle) {
-    var entity =
-        _entities.where((element) => element.handle == handle).first;
+    var entity = _entities.where((element) => element.handle == handle).first;
     return entity;
   }
 

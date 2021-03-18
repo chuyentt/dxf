@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-class ListExt<E> extends ListBase<E> {
+class ListExt<E> extends ListBase<E?> {
   List innerList = [];
 
   @override
@@ -12,22 +12,20 @@ class ListExt<E> extends ListBase<E> {
   }
 
   @override
-  void operator []=(int index, E value) {
+  void operator []=(int index, E? value) {
     innerList[index] = value;
   }
 
   @override
-  E operator [](int index) => innerList[index];
+  E? operator [](int index) => innerList[index];
 
   @override
-  void add(E value) {
-    // TODO: your code here
+  void add(E? value) {
     innerList.add(value);
   }
 
   @override
-  void addAll(Iterable<E> all) {
-    // TODO: your code here
+  void addAll(Iterable<E?> all) {
     innerList.addAll(all);
   }
 }

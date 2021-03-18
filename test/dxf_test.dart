@@ -1,16 +1,16 @@
 import 'package:dxf/dxf.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('A group of tests', () {
-    DXF dxf;
+Future<void> main() async {
+  final dxf = await DXF.create('example/data/new.dxf');
+  group('DXF', () {
+    setUp(() {});
 
-    setUp(() {
-      //dxf = DXF.create('example/data/new.dxf');
-    });
+    test('creates AcDbPoint instance', () async {
+      var point = AcDbPoint(dxf.nextHandle, x: 10, y: 10.5);
+      dxf.entities.add(point);
 
-    test('First Test', () {
-      expect(dxf.nextHandle, !null);
+      expect(point.x, 10);
     });
   });
 }

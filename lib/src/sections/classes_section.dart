@@ -1,4 +1,4 @@
-import './../datamodels/group_code.dart';
+part of dxf;
 
 class ClassesSection {
   final _groupCodes = <GroupCode>[];

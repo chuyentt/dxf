@@ -5,11 +5,25 @@
 /// A comprehensive, cross-platform DXF manipulation library.
 library dxf;
 
-export 'src/dxf_base.dart';
-export 'src/datamodels/ac_db_circle.dart';
-export 'src/datamodels/ac_db_point.dart';
-export 'src/datamodels/ac_db_line.dart';
-export 'src/datamodels/ac_db_polyline.dart';
-export 'src/datamodels/ac_db_text.dart';
-export 'src/datamodels/ac_db_mtext.dart';
-export 'src/datamodels/ac_db_entity.dart';
+import 'dart:convert';
+
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:universal_io/io.dart';
+// import 'dart:html' if (dart.library.io) 'dart:io';
+
+part 'src/dxf_base.dart';
+part 'src/datamodels/entity_base.dart';
+part 'src/datamodels/group_code.dart';
+part 'src/datamodels/ac_db_circle.dart';
+part 'src/datamodels/ac_db_point.dart';
+part 'src/datamodels/ac_db_line.dart';
+part 'src/datamodels/ac_db_polyline.dart';
+part 'src/datamodels/ac_db_text.dart';
+part 'src/datamodels/ac_db_mtext.dart';
+part 'src/datamodels/ac_db_entity.dart';
+part 'src/sections/blocks_section.dart';
+part 'src/sections/classes_section.dart';
+part 'src/sections/entities_section.dart';
+part 'src/sections/header_section.dart';
+part 'src/sections/objects_section.dart';
+part 'src/sections/tables_section.dart';

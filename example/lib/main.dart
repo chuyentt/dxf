@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     dxf.addEntities(closedPl);
-    var handle1 = dxf.nextHandle;
+    var handle1 = dxf.nextHandle!;
     var text = AcDbText(
       handle1,
       x: 11,
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     dxf.addEntities(text);
 
-    var handle = dxf.nextHandle;
+    var handle = dxf.nextHandle!;
     var mtext = AcDbMText(
       handle,
       x: 19,
@@ -162,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var dxfr18 = await DXF.load(r18Path);
     dxfr18.entities.forEach((element) {
       if (element.runtimeType == AcDbPolyline) {
-        AcDbPolyline pl = element;
+        final pl = element as AcDbPolyline;
         print(pl.vertices.length);
       }
     });

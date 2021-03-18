@@ -1,26 +1,25 @@
-import 'group_code.dart';
-import 'ac_db_entity.dart';
+part of dxf;
 
 class AcDbPolyline implements AcDbEntity {
+  @override
   final List<GroupCode> _groupCodes = <GroupCode>[];
-  final int _handle;
+
+  @override
+  final int? _handle;
   AcDbPolyline._init(this._handle);
   static Future<AcDbPolyline> fromGroupCodes(List<GroupCode> codes) async {
-    int handle;
-    var result =
-        codes.firstWhere((element) => element.code == 5, orElse: () => null);
+    int? handle;
+    var result = codes.firstWhereOrNull((element) => element.code == 5);
     if (result != null) handle = int.tryParse(result.value, radix: 16);
     var _acDbEntity = AcDbPolyline._init(handle);
     _acDbEntity._groupCodes.addAll(codes);
 
-    result =
-        codes.firstWhere((element) => element.code == 70, orElse: () => null);
+    result = codes.firstWhereOrNull((element) => element.code == 70);
     if (result != null) {
       _acDbEntity._isClosed = int.parse(result.value) == 1 ? true : false;
     }
 
-    result =
-        codes.firstWhere((element) => element.code == 8, orElse: () => null);
+    result = codes.firstWhereOrNull((element) => element.code == 8);
     if (result != null) {
       _acDbEntity._layerName = result.value;
     }
@@ -38,14 +37,14 @@ class AcDbPolyline implements AcDbEntity {
   }
 
   AcDbPolyline(this._handle,
-      {List<List<double>> vertices,
+      {required List<List<double>> vertices,
       bool isClosed = false,
       String layerName = '0'})
       : _vertices = vertices,
         _isClosed = isClosed,
         _layerName = layerName {
     _groupCodes.add(GroupCode(0, 'LWPOLYLINE'));
-    _groupCodes.add(GroupCode(5, handle.toRadixString(16)));
+    _groupCodes.add(GroupCode(5, handle!.toRadixString(16)));
     _groupCodes.add(GroupCode(330, '1F'));
     _groupCodes.add(GroupCode(100, 'AcDbEntity'));
     _groupCodes.add(GroupCode(8, layerName));
@@ -58,8 +57,7 @@ class AcDbPolyline implements AcDbEntity {
   var _vertices = <List<double>>[];
   List<List<double>> get vertices => _vertices;
   set vertices(List<List<double>> value) {
-    var result = _groupCodes.firstWhere((element) => element.code == 90,
-        orElse: () => null);
+    var result = _groupCodes.firstWhereOrNull((element) => element.code == 90);
     if (result != null) {
       result.value = value;
     }
@@ -69,8 +67,7 @@ class AcDbPolyline implements AcDbEntity {
   bool _isClosed = false;
   bool get isClosed => _isClosed;
   set isClosed(bool value) {
-    var result = _groupCodes.firstWhere((element) => element.code == 70,
-        orElse: () => null);
+    var result = _groupCodes.firstWhereOrNull((element) => element.code == 70);
     if (result != null) {
       _isClosed = value;
       result.value = value ? 1 : 0;
@@ -80,8 +77,7 @@ class AcDbPolyline implements AcDbEntity {
   String _layerName = '0';
   String get layerName => _layerName;
   set layerName(String value) {
-    var result = _groupCodes.firstWhere((element) => element.code == 8,
-        orElse: () => null);
+    var result = _groupCodes.firstWhereOrNull((element) => element.code == 8);
     if (result != null) {
       _layerName = value;
       result.value = value;
@@ -94,7 +90,7 @@ class AcDbPolyline implements AcDbEntity {
     _groupCodes.forEach((element) {
       str += element.dxfString;
     });
-    _vertices?.forEach((vertext) {
+    _vertices.forEach((vertext) {
       str += GroupCode(10, vertext[0]).dxfString;
       str += GroupCode(20, vertext[1]).dxfString;
     });
@@ -102,5 +98,5 @@ class AcDbPolyline implements AcDbEntity {
   }
 
   @override
-  int get handle => _handle;
+  int? get handle => _handle;
 }

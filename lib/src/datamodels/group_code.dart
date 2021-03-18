@@ -1,5 +1,7 @@
+part of dxf;
+
 class GroupCode {
-  final int code;
+  final int? code;
   dynamic value;
   GroupCode(this.code, this.value);
 

@@ -1,14 +1,12 @@
-import 'group_code.dart';
-import 'entity_base.dart';
+part of dxf;
 
 class AcDbEntity extends AcDbEntityBase {
   final List<GroupCode> _groupCodes = <GroupCode>[];
-  final int _handle;
+  final int? _handle;
   AcDbEntity._init(this._handle);
   static Future<AcDbEntity> fromGroupCodes(List<GroupCode> codes) async {
-    int handle;
-    var result =
-        codes.firstWhere((element) => element.code == 5, orElse: () => null);
+    int? handle;
+    var result = codes.firstWhereOrNull((element) => element.code == 5);
     if (result != null) handle = int.tryParse(result.value, radix: 16);
     var _acDbEntity = AcDbEntity._init(handle);
     _acDbEntity._groupCodes.addAll(codes);
@@ -25,5 +23,5 @@ class AcDbEntity extends AcDbEntityBase {
   }
 
   @override
-  int get handle => _handle;
+  int? get handle => _handle;
 }

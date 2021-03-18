@@ -1,5 +1,7 @@
+part of dxf;
+
 abstract class AcDbEntityBase {
-  int get handle;
+  int? get handle;
 
   String get dxfString;
 }
