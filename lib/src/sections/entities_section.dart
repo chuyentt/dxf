@@ -1,5 +1,8 @@
 part of dxf;
 
+/// ENTITIES Section
+///
+/// Entities group codes that apply to graphical objects.
 class EntitiesSection {
   final _entities = <AcDbEntity>[];
   List<AcDbEntity> get entities => _entities;

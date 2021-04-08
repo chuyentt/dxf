@@ -1,5 +1,8 @@
 part of dxf;
 
+/// CIRCLE (DXF)
+///
+/// Subclass marker (AcDbCircle)
 class AcDbCircle implements AcDbEntity {
   @override
   final List<GroupCode> _groupCodes = <GroupCode>[];

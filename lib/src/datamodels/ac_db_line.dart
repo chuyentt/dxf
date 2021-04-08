@@ -1,5 +1,8 @@
 part of dxf;
 
+/// LINE (DXF)
+///
+/// Subclass marker (AcDbLine)
 class AcDbLine implements AcDbEntity {
   @override
   final List<GroupCode> _groupCodes = <GroupCode>[];

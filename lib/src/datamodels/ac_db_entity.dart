@@ -1,5 +1,6 @@
 part of dxf;
 
+/// ENTITY (DXF)
 class AcDbEntity extends AcDbEntityBase {
   final List<GroupCode> _groupCodes = <GroupCode>[];
   final int? _handle;

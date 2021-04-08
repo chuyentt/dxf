@@ -1,7 +1,16 @@
 part of dxf;
 
+/// HEADER Section
+///
+/// The HEADER section of a DXF file contains the settings of variables
+/// associated with the drawing. Each variable is specified by a 9 group
+/// code giving the variable's name, followed by groups that supply the
+/// variable's value. Only the variables that are saved in the drawing
+/// file are listed.
 class HeaderSection {
   final _groupCodes = <GroupCode>[];
+
+  /// DXF Group Codes
   List<GroupCode> get groupCodes => _groupCodes;
 
   int _nextHandle = 400;

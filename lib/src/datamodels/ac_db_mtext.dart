@@ -1,5 +1,8 @@
 part of dxf;
 
+/// MTEXT (DXF)
+///
+/// Subclass marker (AcDbMText)
 class AcDbMText implements AcDbEntity {
   @override
   final List<GroupCode> _groupCodes = <GroupCode>[];

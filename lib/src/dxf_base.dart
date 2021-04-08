@@ -1,10 +1,15 @@
 part of dxf;
 
-/// Drawing Exchange Format
+/// Drawing Exchange Format (DXF)
+///
+/// The DXF™ format is a tagged data representation of all the information
+/// contained in an AutoCAD ® drawing file
 class DXF {
   final _groupCodes = <GroupCode>[];
 
   String? _filePath;
+
+  /// DXF File path
   String? get path => _filePath;
 
   late HeaderSection _headerSection;
@@ -14,21 +19,26 @@ class DXF {
   late EntitiesSection _entitiesSection;
   late ObjectsSection _objectsSection;
 
+  /// Next available handle
   int? get nextHandle => _headerSection.nextHandle;
 
+  /// Add entities to the DXF file
   void addEntities(AcDbEntity entity) {
     _entitiesSection.addEntity(entity);
     _headerSection.increase();
   }
 
+  /// Get entity by handle
   AcDbEntity getEntityByHandle(int handle) {
     return _entitiesSection.getEntityByHandle(handle);
   }
 
+  /// Remove entity
   void removeEntity(AcDbEntity entity) {
     _entitiesSection.removeEntity(entity);
   }
 
+  /// Get all entities
   List<AcDbEntity> get entities => _entitiesSection.entities;
 
   DXF._init(String filePath) {
@@ -82,6 +92,7 @@ class DXF {
     });
   }
 
+  /// Create a DXF object
   static Future<DXF> create(String filePath) async {
     var _dxf = DXF._init(filePath);
     int? code;
@@ -97,6 +108,7 @@ class DXF {
     return _dxf;
   }
 
+  /// Loading your DXF file
   static Future<DXF> load(String filePath) async {
     var _dxf = DXF._init(filePath);
     await _dxf._load(filePath);
@@ -104,6 +116,7 @@ class DXF {
     return _dxf;
   }
 
+  /// Save
   Future<void> save({String? newPath}) async {
     var filePath = newPath ?? _filePath!;
     var file = File(filePath);

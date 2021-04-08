@@ -1,5 +1,8 @@
 part of dxf;
 
+/// POLYLINE (DXF)
+///
+/// Subclass marker (AcDbPolyline)
 class AcDbPolyline implements AcDbEntity {
   @override
   final List<GroupCode> _groupCodes = <GroupCode>[];
