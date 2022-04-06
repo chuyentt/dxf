@@ -9,12 +9,13 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:universal_io/io.dart';
-// import 'dart:html' if (dart.library.io) 'dart:io';
 
 part 'src/dxf_base.dart';
 part 'src/datamodels/entity_base.dart';
 part 'src/datamodels/group_code.dart';
 part 'src/datamodels/ac_db_circle.dart';
+part 'src/datamodels/ac_db_ellipse.dart';
+part 'src/datamodels/ac_db_arc.dart';
 part 'src/datamodels/ac_db_point.dart';
 part 'src/datamodels/ac_db_line.dart';
 part 'src/datamodels/ac_db_polyline.dart';

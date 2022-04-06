@@ -1,3 +1,10 @@
+# CHANGELOG
+
+## [2.1.0] - 2022-04-06
+
+* Add support AcDbEllipse entity
+* Add support AcDbArc entity
+
 ## [2.0.0+2] - 2021-04-07
 
 * Updated API documentation
@@ -11,60 +18,69 @@
 * Null safety
 
 ## 1.3.0
-- Add support AcDbCircle entity
+
+* Add support AcDbCircle entity
 
 ## 1.2.3
-- Fix the assets
+
+* Fix the assets
 
 ## 1.2.2+5
-- Fix the assets
+
+* Fix the assets
 
 ## 1.2.2
-- Added path property
+
+* Added path property
 
 ## 1.2.1+1
-- Exported AcDbEntity data model
+
+* Exported AcDbEntity data model
 
 ## 1.2.1
-- Fixed AcDbPolyline mising vertices
+
+* Fixed AcDbPolyline mising vertices
 
 ## 1.2.0
-- Completed data model
+
+* Completed data model
 
 ## 1.1.0
-- Package restructuring
+
+* Package restructuring
 
 ## 1.0.3
-- Compatible with runtime flutter-web of web
+
+* Compatible with runtime flutter-web of web
 
 ## 1.0.2+4
 
-- Format code
+* Format code
 
 ## 1.0.2+3
 
-- Format code
+* Format code
 
 ## 1.0.2+2
 
-- Fix suggestions
+* Fix suggestions
 
 ## 1.0.2+1
 
-- Fix suggestions
+* Fix suggestions
 
 ## 1.0.2
 
-- Parse entities section
+* Parse entities section
 
 ## 1.0.1+1
 
-- Lightweight restructuring
+* Lightweight restructuring
 
 ## 1.0.1
 
-- Load and save as..., parse: header section
+* Load and save as..., parse: header section
 
 ## 1.0.0
 
-- Initial version, created by chuyentt
+* Initial version, created by chuyentt

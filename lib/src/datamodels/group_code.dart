@@ -74,6 +74,14 @@ class GroupCode {
     return code == 0 && value.toString() == 'MTEXT';
   }
 
+  bool get isAcDbArc {
+    return code == 0 && value.toString() == 'ARC';
+  }
+
+  bool get isAcDbEllipse {
+    return code == 0 && value.toString() == 'ELLIPSE';
+  }
+
   String get dxfString {
     return '${code.toString().padLeft(3, ' ')}\r\n$value\r\n';
   }
