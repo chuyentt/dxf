@@ -4,108 +4,102 @@ part of dxf;
 ///
 /// Subclass marker (AcDbPoint)
 class AcDbPoint implements AcDbEntity {
-  @override
-  final List<GroupCode> _groupCodes = <GroupCode>[];
+  AcDbPoint._();
 
   @override
-  final int? _handle;
-  AcDbPoint._init(this._handle);
-  static Future<AcDbPoint> fromGroupCodes(List<GroupCode> codes) async {
-    int? handle;
-    var result = codes.firstWhereOrNull((element) => element.code == 5);
-    if (result != null) handle = int.tryParse(result.value, radix: 16);
-    var _acDbEntity = AcDbPoint._init(handle);
-    _acDbEntity._groupCodes.addAll(codes);
+  List<GroupCode> groupCodes = <GroupCode>[];
 
-    result = codes.firstWhereOrNull((element) => element.code == 10);
-    if (result != null) {
-      _acDbEntity._x = double.parse(result.value);
-    }
+  @override
+  String get dxfString => groupCodes.expand((e) => [e.dxfString]).join();
 
-    result = codes.firstWhereOrNull((element) => element.code == 20);
-    if (result != null) {
-      _acDbEntity._y = double.parse(result.value);
-    }
+  @override
+  String _handle = '190';
 
-    result = codes.firstWhereOrNull((element) => element.code == 30);
-    if (result != null) {
-      _acDbEntity._z = double.parse(result.value);
-    }
+  @override
+  String get handle => _handle;
 
-    result = codes.firstWhereOrNull((element) => element.code == 8);
-    if (result != null) {
-      _acDbEntity._layerName = result.value;
-    }
-
-    return _acDbEntity;
+  @override
+  set handle(value) {
+    final result = groupCodes.firstWhere((element) => element.code == 5);
+    result.value = value;
+    _handle = value;
   }
 
-  AcDbPoint(this._handle,
-      {double x = 0, double y = 0, double z = 0, String layerName = '0'})
-      : _x = x,
-        _y = y,
-        _z = z,
-        _layerName = layerName {
-    _groupCodes.add(GroupCode(0, 'POINT'));
-    _groupCodes.add(GroupCode(5, handle!.toRadixString(16)));
-    _groupCodes.add(GroupCode(330, '1F'));
-    _groupCodes.add(GroupCode(100, 'AcDbEntity'));
-    _groupCodes.add(GroupCode(8, layerName));
-    _groupCodes.add(GroupCode(100, 'AcDbPoint'));
-    _groupCodes.add(GroupCode(10, x));
-    _groupCodes.add(GroupCode(20, y));
-    _groupCodes.add(GroupCode(30, z));
+  @override
+  String _layerName = '0';
+
+  @override
+  String get layerName => _layerName;
+
+  @override
+  set layerName(String value) {
+    final result = groupCodes.firstWhere((element) => element.code == 8);
+    _layerName = value;
+    result.value = value;
   }
 
   double _x = 0;
   double get x => _x;
   set x(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 10);
-    if (result != null) {
-      _x = value;
-      result.value = value;
-    }
+    final result = groupCodes.firstWhere((element) => element.code == 10);
+    _x = value;
+    result.value = value;
   }
 
   double _y = 0;
   double get y => _y;
   set y(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 20);
-    if (result != null) {
-      _y = value;
-      result.value = value;
-    }
+    final result = groupCodes.firstWhere((element) => element.code == 20);
+    _y = value;
+    result.value = value;
   }
 
   double _z = 0;
   double get z => _z;
   set z(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 30);
-    if (result != null) {
-      _z = value;
-      result.value = value;
+    final result = groupCodes.firstWhere((element) => element.code == 30);
+    _z = value;
+    result.value = value;
+  }
+
+  factory AcDbPoint.fromGroupCodes(List<GroupCode> codes) {
+    var _acDbEntity = AcDbPoint._();
+    _acDbEntity.groupCodes.addAll(codes);
+    try {
+      var result = codes.firstWhere((element) => element.code == 5);
+      _acDbEntity.handle = result.value;
+      result = codes.firstWhere((element) => element.code == 10);
+      _acDbEntity._x = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 20);
+      _acDbEntity._y = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 30);
+      _acDbEntity._z = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 8);
+      _acDbEntity._layerName = result.value;
+    } catch (e) {
+      throw AssertionError(['Missing group code!']);
     }
+    return _acDbEntity;
   }
 
-  String _layerName = '0';
-  String get layerName => _layerName;
-  set layerName(String value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 8);
-    if (result != null) {
-      _layerName = value;
-      result.value = value;
-    }
+  /// Create AcDbPoint entity.
+  AcDbPoint({
+    double x = 0,
+    double y = 0,
+    double z = 0,
+    String layerName = '0',
+  })  : _x = x,
+        _y = y,
+        _z = z,
+        _layerName = layerName {
+    groupCodes.add(GroupCode(0, 'POINT'));
+    groupCodes.add(GroupCode(5, handle));
+    groupCodes.add(GroupCode(330, '1F'));
+    groupCodes.add(GroupCode(100, 'AcDbEntity'));
+    groupCodes.add(GroupCode(8, layerName));
+    groupCodes.add(GroupCode(100, 'AcDbPoint'));
+    groupCodes.add(GroupCode(10, x));
+    groupCodes.add(GroupCode(20, y));
+    groupCodes.add(GroupCode(30, z));
   }
-
-  @override
-  String get dxfString {
-    var str = '';
-    _groupCodes.forEach((element) {
-      str += element.dxfString;
-    });
-    return str;
-  }
-
-  @override
-  int? get handle => _handle;
 }

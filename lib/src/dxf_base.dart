@@ -5,13 +5,7 @@ part of dxf;
 /// The DXF™ format is a tagged data representation of all the information
 /// contained in an AutoCAD ® drawing file
 class DXF {
-  final _groupCodes = <GroupCode>[];
-
-  String? _filePath;
-
-  /// DXF File path
-  String? get path => _filePath;
-
+  final groupCodes = <GroupCode>[];
   late HeaderSection _headerSection;
   late ClassesSection _classesSection;
   late TablesSection _tablesSection;
@@ -19,17 +13,17 @@ class DXF {
   late EntitiesSection _entitiesSection;
   late ObjectsSection _objectsSection;
 
-  /// Next available handle
-  int? get nextHandle => _headerSection.nextHandle;
+  DXF._init();
 
   /// Add entities to the DXF file
   void addEntities(AcDbEntity entity) {
+    entity.handle = _headerSection.nextHandle;
     _entitiesSection.addEntity(entity);
     _headerSection.increase();
   }
 
   /// Get entity by handle
-  AcDbEntity getEntityByHandle(int handle) {
+  AcDbEntity getEntityByHandle(String handle) {
     return _entitiesSection.getEntityByHandle(handle);
   }
 
@@ -41,13 +35,25 @@ class DXF {
   /// Get all entities
   List<AcDbEntity> get entities => _entitiesSection.entities;
 
-  DXF._init(String filePath) {
-    _filePath = filePath;
+  /// Create a DXF object
+  factory DXF.create() {
+    var _dxf = DXF._init();
+    int? code;
+    _dxf._dxfSeed.forEach((dynamic value) async {
+      if (code != null) {
+        _dxf.groupCodes.add(GroupCode(code, value));
+        code = null;
+      } else {
+        code = int.tryParse(value);
+      }
+    });
+    _dxf._parse();
+    return _dxf;
   }
 
-  Future<void> _parse() async {
+  void _parse() {
     var codes = <GroupCode>[];
-    _groupCodes.forEach((element) async {
+    groupCodes.forEach((element) {
       if (element.isSECTION) {
         codes = [];
         codes.add(element);
@@ -57,113 +63,55 @@ class DXF {
           var _element = codes[1];
           assert(_element.code == 2);
           if (_element.isHEADER) {
-            _headerSection = await HeaderSection.fromGroupCodes(codes);
+            _headerSection = HeaderSection.fromGroupCodes(codes);
           } else if (_element.isCLASSES) {
-            _classesSection = await ClassesSection.fromGroupCodes(codes);
+            _classesSection = ClassesSection.fromGroupCodes(codes);
           } else if (_element.isTABLES) {
-            _tablesSection = await TablesSection.fromGroupCodes(codes);
+            _tablesSection = TablesSection.fromGroupCodes(codes);
           } else if (_element.isBLOCKS) {
-            _blocksSection = await BlocksSection.fromGroupCodes(codes);
+            _blocksSection = BlocksSection.fromGroupCodes(codes);
           } else if (_element.isENTITIES) {
-            _entitiesSection = await EntitiesSection.fromGroupCodes(codes);
+            _entitiesSection = EntitiesSection.fromGroupCodes(codes);
           } else if (_element.isOBJECTS) {
-            _objectsSection = await ObjectsSection.fromGroupCodes(codes);
+            _objectsSection = ObjectsSection.fromGroupCodes(codes);
           }
         }
       }
     });
   }
 
-  Future _load(String filePath) async {
-    var file = File(filePath);
-    await file.readAsString().then((data) async {
-      var lines = LineSplitter().convert(data);
-      int? code;
-      lines.forEach((dynamic value) async {
-        if (code != null) {
-          _groupCodes.add(GroupCode(code, value));
-          code = null;
-        } else {
-          code = int.tryParse(value);
-        }
-      });
-    }).catchError((onError) {
-      throw onError;
-    });
-  }
-
-  /// Create a DXF object
-  static Future<DXF> create(String filePath) async {
-    var _dxf = DXF._init(filePath);
+  /// Load string from ASCII DXF file
+  factory DXF.fromString(String dxfString) {
+    var _dxf = DXF._init();
+    var lines = LineSplitter().convert(dxfString);
     int? code;
-    _dxf._dxfSeed.forEach((dynamic value) async {
+    lines.forEach((dynamic value) {
       if (code != null) {
-        _dxf._groupCodes.add(GroupCode(code, value));
+        _dxf.groupCodes.add(GroupCode(code, value));
         code = null;
       } else {
         code = int.tryParse(value);
       }
     });
-    await _dxf._parse();
+    _dxf._parse();
     return _dxf;
   }
 
-  /// Loading your DXF file
-  static Future<DXF> load(String filePath) async {
-    var _dxf = DXF._init(filePath);
-    await _dxf._load(filePath);
-    await _dxf._parse();
-    return _dxf;
+  /// Return dxfString
+  String get dxfString {
+    return [
+      _headerSection.groupCodes.expand((e) => [e.dxfString]).join(),
+      _classesSection.groupCodes.expand((e) => [e.dxfString]).join(),
+      _tablesSection.groupCodes.expand((e) => [e.dxfString]).join(),
+      _blocksSection.groupCodes.expand((e) => [e.dxfString]).join(),
+      _entitiesSection.dxfString,
+      _objectsSection.groupCodes.expand((e) => [e.dxfString]).join(),
+      '  0\r\n',
+      'EOF\r\n',
+    ].join();
   }
 
-  /// Save
-  Future<void> save({String? newPath}) async {
-    var filePath = newPath ?? _filePath!;
-    var file = File(filePath);
-
-    // Write the file.
-    var fileHandle = file.openWrite(mode: FileMode.writeOnly);
-
-    /// Header Section
-    _headerSection.groupCodes.forEach((element) {
-      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
-      fileHandle.writeln(element.value);
-    });
-
-    /// Classes Section
-    _classesSection.groupCodes.forEach((element) {
-      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
-      fileHandle.writeln(element.value);
-    });
-
-    /// Tables Section
-    _tablesSection.groupCodes.forEach((element) {
-      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
-      fileHandle.writeln(element.value);
-    });
-
-    /// Blocks Section
-    _blocksSection.groupCodes.forEach((element) {
-      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
-      fileHandle.writeln(element.value);
-    });
-
-    /// Entities Section
-    fileHandle.writeln(_entitiesSection.dxfString);
-
-    /// Objects Section
-    _objectsSection.groupCodes.forEach((element) {
-      fileHandle.writeln(element.code.toString().padLeft(3, ' '));
-      fileHandle.writeln(element.value);
-    });
-
-    /// EOF
-    fileHandle.writeln(0.toString().padLeft(3, ' '));
-    fileHandle.writeln('EOF');
-
-    await fileHandle.close();
-  }
-
+  /// Starting with DXF version R2007 (AC1021)
   final _dxfSeed = [
     '  0',
     'SECTION',
@@ -1068,7 +1016,7 @@ class DXF {
     '  9',
     '\$INSUNITS',
     ' 70',
-    '     1',
+    '     6',
     '  9',
     '\$HYPERLINKBASE',
     '  1',

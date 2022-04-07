@@ -1,28 +1,40 @@
 part of dxf;
 
-/// ENTITY (DXF)
-class AcDbEntity extends AcDbEntityBase {
-  final List<GroupCode> _groupCodes = <GroupCode>[];
-  final int? _handle;
-  AcDbEntity._init(this._handle);
-  static Future<AcDbEntity> fromGroupCodes(List<GroupCode> codes) async {
-    int? handle;
-    var result = codes.firstWhereOrNull((element) => element.code == 5);
-    if (result != null) handle = int.tryParse(result.value, radix: 16);
-    var _acDbEntity = AcDbEntity._init(handle);
-    _acDbEntity._groupCodes.addAll(codes);
+/// Create AcDbEntity.
+class AcDbEntity {
+  AcDbEntity._();
+
+  List<GroupCode> groupCodes = <GroupCode>[];
+
+  String get dxfString {
+    return groupCodes.expand((e) => [e.dxfString]).join();
+  }
+
+  String _handle = '';
+  String get handle => _handle;
+  set handle(value) {
+    final result = groupCodes.firstWhere((element) => element.code == 5);
+    _handle = value;
+    result.value = value;
+  }
+
+  String _layerName = '0';
+  String get layerName => _layerName;
+  set layerName(String value) {
+    final result = groupCodes.firstWhere((element) => element.code == 8);
+    _layerName = value;
+    result.value = value;
+  }
+
+  factory AcDbEntity.fromGroupCodes(List<GroupCode> codes) {
+    var _acDbEntity = AcDbEntity._();
+    _acDbEntity.groupCodes.addAll(codes);
+    try {
+      var result = codes.firstWhere((element) => element.code == 5);
+      _acDbEntity.handle = result.value;
+    } catch (e) {
+      throw AssertionError(['Missing group code!']);
+    }
     return _acDbEntity;
   }
-
-  @override
-  String get dxfString {
-    var str = '';
-    _groupCodes.forEach((element) {
-      str += element.dxfString;
-    });
-    return str;
-  }
-
-  @override
-  int? get handle => _handle;
 }

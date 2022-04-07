@@ -8,15 +8,13 @@ part of dxf;
 /// definition is permanently fixed in the class hierarchy. All fields are
 /// required.
 class ClassesSection {
-  final _groupCodes = <GroupCode>[];
-
   /// DXF Group Codes
-  List<GroupCode> get groupCodes => _groupCodes;
+  final groupCodes = <GroupCode>[];
 
   ClassesSection._init();
-  static Future<ClassesSection> fromGroupCodes(List<GroupCode> codes) async {
+  factory ClassesSection.fromGroupCodes(List<GroupCode> codes) {
     var _section = ClassesSection._init();
-    _section._groupCodes.addAll(codes);
+    _section.groupCodes.addAll(codes);
     return _section;
   }
 }

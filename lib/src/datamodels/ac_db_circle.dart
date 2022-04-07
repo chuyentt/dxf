@@ -4,130 +4,115 @@ part of dxf;
 ///
 /// Subclass marker (AcDbCircle)
 class AcDbCircle implements AcDbEntity {
-  @override
-  final List<GroupCode> _groupCodes = <GroupCode>[];
+  AcDbCircle._();
 
   @override
-  final int? _handle;
+  List<GroupCode> groupCodes = <GroupCode>[];
 
-  AcDbCircle._init(this._handle);
-  static Future<AcDbCircle> fromGroupCodes(List<GroupCode> codes) async {
-    int? handle;
-    var result = codes.firstWhereOrNull((element) => element.code == 5);
-    if (result != null) handle = int.tryParse(result.value, radix: 16);
-    var _acDbEntity = AcDbCircle._init(handle);
-    _acDbEntity._groupCodes.addAll(codes);
+  @override
+  String get dxfString => groupCodes.expand((e) => [e.dxfString]).join();
 
-    result = codes.firstWhereOrNull((element) => element.code == 10);
-    if (result != null) {
-      _acDbEntity._x = double.parse(result.value);
-    }
+  @override
+  String _handle = '190';
 
-    result = codes.firstWhereOrNull((element) => element.code == 20);
-    if (result != null) {
-      _acDbEntity._y = double.parse(result.value);
-    }
+  @override
+  String get handle => _handle;
 
-    result = codes.firstWhereOrNull((element) => element.code == 30);
-    if (result != null) {
-      _acDbEntity._z = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 40);
-    if (result != null) {
-      _acDbEntity._r = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 8);
-    if (result != null) {
-      _acDbEntity._layerName = result.value;
-    }
-
-    return _acDbEntity;
+  @override
+  set handle(value) {
+    final result = groupCodes.firstWhere((element) => element.code == 5);
+    result.value = value;
+    _handle = value;
   }
 
-  AcDbCircle(this._handle,
-      {double x = 0,
-      double y = 0,
-      double z = 0,
-      double r = 0,
-      String layerName = '0'})
-      : _x = x,
-        _y = y,
-        _z = z,
-        _r = r,
-        _layerName = layerName {
-    _groupCodes.add(GroupCode(0, 'CIRCLE'));
-    _groupCodes.add(GroupCode(5, handle!.toRadixString(16)));
-    _groupCodes.add(GroupCode(330, '1F'));
-    _groupCodes.add(GroupCode(100, 'AcDbEntity'));
-    _groupCodes.add(GroupCode(8, layerName));
-    _groupCodes.add(GroupCode(100, 'AcDbCircle'));
-    _groupCodes.add(GroupCode(10, x));
-    _groupCodes.add(GroupCode(20, y));
-    _groupCodes.add(GroupCode(30, z));
-    _groupCodes.add(GroupCode(40, r));
+  @override
+  String _layerName = '0';
+
+  @override
+  String get layerName => _layerName;
+
+  @override
+  set layerName(String value) {
+    final result = groupCodes.firstWhere((element) => element.code == 8);
+    _layerName = value;
+    result.value = value;
   }
 
   double _x = 0;
   double get x => _x;
   set x(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 10);
-    if (result != null) {
-      _x = value;
-      result.value = value;
-    }
+    final result = groupCodes.firstWhere((element) => element.code == 10);
+    _x = value;
+    result.value = value;
   }
 
   double _y = 0;
   double get y => _y;
   set y(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 20);
-    if (result != null) {
-      _y = value;
-      result.value = value;
-    }
+    final result = groupCodes.firstWhere((element) => element.code == 20);
+    _y = value;
+    result.value = value;
   }
 
   double _z = 0;
   double get z => _z;
   set z(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 30);
-    if (result != null) {
-      _z = value;
-      result.value = value;
+    final result = groupCodes.firstWhere((element) => element.code == 30);
+    _z = value;
+    result.value = value;
+  }
+
+  double _radius = 0;
+  double get radius => _radius;
+  set radius(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 40);
+    _radius = value;
+    result.value = value;
+  }
+
+  factory AcDbCircle.fromGroupCodes(List<GroupCode> codes) {
+    var _acDbEntity = AcDbCircle._();
+    _acDbEntity.groupCodes.addAll(codes);
+    try {
+      var result = codes.firstWhere((element) => element.code == 5);
+      _acDbEntity.handle = result.value;
+      result = codes.firstWhere((element) => element.code == 10);
+      _acDbEntity._x = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 20);
+      _acDbEntity._y = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 30);
+      _acDbEntity._z = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 40);
+      _acDbEntity._radius = double.parse(result.value);
+      result = codes.firstWhere((element) => element.code == 8);
+      _acDbEntity._layerName = result.value;
+    } catch (e) {
+      throw AssertionError(['Missing group code!']);
     }
+    return _acDbEntity;
   }
 
-  double _r = 0;
-  double get r => _r;
-  set r(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 40);
-    if (result != null) {
-      _r = value;
-      result.value = value;
-    }
+  /// Create AcDbCircle entity.
+  AcDbCircle({
+    double x = 0,
+    double y = 0,
+    double z = 0,
+    double radius = 0,
+    String layerName = '0',
+  })  : _x = x,
+        _y = y,
+        _z = z,
+        _radius = radius,
+        _layerName = layerName {
+    groupCodes.add(GroupCode(0, 'CIRCLE'));
+    groupCodes.add(GroupCode(5, handle));
+    groupCodes.add(GroupCode(330, '1F'));
+    groupCodes.add(GroupCode(100, 'AcDbEntity'));
+    groupCodes.add(GroupCode(8, layerName));
+    groupCodes.add(GroupCode(100, 'AcDbCircle'));
+    groupCodes.add(GroupCode(10, x));
+    groupCodes.add(GroupCode(20, y));
+    groupCodes.add(GroupCode(30, z));
+    groupCodes.add(GroupCode(40, radius));
   }
-
-  String _layerName = '0';
-  String get layerName => _layerName;
-  set layerName(String value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 8);
-    if (result != null) {
-      _layerName = value;
-      result.value = value;
-    }
-  }
-
-  @override
-  String get dxfString {
-    var str = '';
-    _groupCodes.forEach((element) {
-      str += element.dxfString;
-    });
-    return str;
-  }
-
-  @override
-  int? get handle => _handle;
 }

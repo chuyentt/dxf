@@ -4,85 +4,157 @@ part of dxf;
 ///
 /// Subclass marker (AcDbEllipse)
 class AcDbEllipse implements AcDbEntity {
-  @override
-  final List<GroupCode> _groupCodes = <GroupCode>[];
+  AcDbEllipse._();
 
   @override
-  final int? _handle;
+  List<GroupCode> groupCodes = <GroupCode>[];
 
-  AcDbEllipse._init(this._handle);
-  static Future<AcDbEllipse> fromGroupCodes(List<GroupCode> codes) async {
-    int? handle;
-    var result = codes.firstWhereOrNull((element) => element.code == 5);
-    if (result != null) handle = int.tryParse(result.value, radix: 16);
-    var _acDbEntity = AcDbEllipse._init(handle);
-    _acDbEntity._groupCodes.addAll(codes);
+  @override
+  String get dxfString => groupCodes.expand((e) => [e.dxfString]).join();
 
-    result = codes.firstWhereOrNull((element) => element.code == 10);
-    if (result != null) {
+  @override
+  String _handle = '190';
+
+  @override
+  String get handle => _handle;
+
+  @override
+  set handle(value) {
+    final result = groupCodes.firstWhere((element) => element.code == 5);
+    result.value = value;
+    _handle = value;
+  }
+
+  @override
+  String _layerName = '0';
+
+  @override
+  String get layerName => _layerName;
+
+  @override
+  set layerName(String value) {
+    final result = groupCodes.firstWhere((element) => element.code == 8);
+    _layerName = value;
+    result.value = value;
+  }
+
+  double _x = 0;
+  double get x => _x;
+  set x(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 10);
+    _x = value;
+    result.value = value;
+  }
+
+  double _y = 0;
+  double get y => _y;
+  set y(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 20);
+    _y = value;
+    result.value = value;
+  }
+
+  double _z = 0;
+  double get z => _z;
+  set z(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 30);
+    _z = value;
+    result.value = value;
+  }
+
+  double _ratioMajor = 0;
+  double get radius => _ratioMajor;
+  set ratioMajor(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 40);
+    _ratioMajor = value;
+    result.value = value;
+  }
+
+  double _x_endPoint = 0;
+  double get x_endPoint => _x_endPoint;
+  set x_endPoint(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 11);
+    _x_endPoint = value;
+    result.value = value;
+  }
+
+  double _y_endPoint = 0;
+  double get y_endPoint => _y_endPoint;
+  set y_endPoint(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 21);
+    _y_endPoint = value;
+    result.value = value;
+  }
+
+  double _z_endPoint = 0;
+  double get z_endPoint => _z_endPoint;
+  set z_endPoint(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 31);
+    _z_endPoint = value;
+    result.value = value;
+  }
+
+  double _start = 0;
+  double get start => _start;
+  set start(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 41);
+    _start = value;
+    result.value = value;
+  }
+
+  double _end = 0;
+  double get end => _end;
+  set end(double value) {
+    final result = groupCodes.firstWhere((element) => element.code == 42);
+    _end = value;
+    result.value = value;
+  }
+
+  factory AcDbEllipse.fromGroupCodes(List<GroupCode> codes) {
+    var _acDbEntity = AcDbEllipse._();
+    _acDbEntity.groupCodes.addAll(codes);
+    try {
+      var result = codes.firstWhere((element) => element.code == 5);
+      _acDbEntity.handle = result.value;
+      result = codes.firstWhere((element) => element.code == 10);
       _acDbEntity._x = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 20);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 20);
       _acDbEntity._y = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 30);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 30);
       _acDbEntity._z = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 40);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 40);
       _acDbEntity._ratioMajor = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 11);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 11);
       _acDbEntity._x_endPoint = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 21);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 21);
       _acDbEntity._y_endPoint = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 31);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 31);
       _acDbEntity._z_endPoint = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 41);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 41);
       _acDbEntity._start = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 42);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 42);
       _acDbEntity._end = double.parse(result.value);
-    }
-
-    result = codes.firstWhereOrNull((element) => element.code == 8);
-    if (result != null) {
+      result = codes.firstWhere((element) => element.code == 8);
       _acDbEntity._layerName = result.value;
+    } catch (e) {
+      throw AssertionError(['Missing group code!']);
     }
-
     return _acDbEntity;
   }
 
-  AcDbEllipse(this._handle,
-      {double x = 0,
-      double y = 0,
-      double z = 0,
-      double ratioMajor = 0,
-      double start = 0,
-      end = 0,
-      double x_endPoint = 0,
-      double y_endPoint = 0,
-      double z_endPoint = 0,
-      String layerName = '0'})
-      : _x = x,
+  /// Create Ellipse entity.
+  AcDbEllipse({
+    double x = 0,
+    double y = 0,
+    double z = 0,
+    double ratioMajor = 0,
+    double start = 0,
+    end = 0,
+    double x_endPoint = 0,
+    double y_endPoint = 0,
+    double z_endPoint = 0,
+    String layerName = '0',
+  })  : _x = x,
         _y = y,
         _z = z,
         _ratioMajor = ratioMajor,
@@ -92,132 +164,20 @@ class AcDbEllipse implements AcDbEntity {
         _start = start,
         _end = end,
         _layerName = layerName {
-    _groupCodes.add(GroupCode(0, 'ELLIPSE'));
-    _groupCodes.add(GroupCode(5, handle!.toRadixString(16)));
-    _groupCodes.add(GroupCode(330, '1F'));
-    _groupCodes.add(GroupCode(100, 'AcDbEntity'));
-    _groupCodes.add(GroupCode(8, layerName));
-    _groupCodes.add(GroupCode(100, 'AcDbEllipse'));
-    _groupCodes.add(GroupCode(10, x));
-    _groupCodes.add(GroupCode(20, y));
-    _groupCodes.add(GroupCode(30, z));
-    _groupCodes.add(GroupCode(40, ratioMajor));
-    _groupCodes.add(GroupCode(41, start));
-    _groupCodes.add(GroupCode(42, end));
-    _groupCodes.add(GroupCode(11, x_endPoint));
-    _groupCodes.add(GroupCode(21, y_endPoint));
-    _groupCodes.add(GroupCode(31, z_endPoint));
+    groupCodes.add(GroupCode(0, 'ELLIPSE'));
+    groupCodes.add(GroupCode(5, handle));
+    groupCodes.add(GroupCode(330, '1F'));
+    groupCodes.add(GroupCode(100, 'AcDbEntity'));
+    groupCodes.add(GroupCode(8, layerName));
+    groupCodes.add(GroupCode(100, 'AcDbEllipse'));
+    groupCodes.add(GroupCode(10, x));
+    groupCodes.add(GroupCode(20, y));
+    groupCodes.add(GroupCode(30, z));
+    groupCodes.add(GroupCode(40, ratioMajor));
+    groupCodes.add(GroupCode(41, start));
+    groupCodes.add(GroupCode(42, end));
+    groupCodes.add(GroupCode(11, x_endPoint));
+    groupCodes.add(GroupCode(21, y_endPoint));
+    groupCodes.add(GroupCode(31, z_endPoint));
   }
-
-  double _x = 0;
-  double get x => _x;
-  set x(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 10);
-    if (result != null) {
-      _x = value;
-      result.value = value;
-    }
-  }
-
-  double _y = 0;
-  double get y => _y;
-  set y(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 20);
-    if (result != null) {
-      _y = value;
-      result.value = value;
-    }
-  }
-
-  double _z = 0;
-  double get z => _z;
-  set z(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 30);
-    if (result != null) {
-      _z = value;
-      result.value = value;
-    }
-  }
-
-  double _ratioMajor = 0;
-  double get ratioMajor => _ratioMajor;
-  set ratioMajor(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 40);
-    if (result != null) {
-      _ratioMajor = value;
-      result.value = value;
-    }
-  }
-
-  double _x_endPoint = 0;
-  double get x_endPoint => _x_endPoint;
-  set x_endPoint(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 11);
-    if (result != null) {
-      _x_endPoint = value;
-      result.value = value;
-    }
-  }
-
-  double _y_endPoint = 0;
-  double get y_endPoint => _y_endPoint;
-  set y_endPoint(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 21);
-    if (result != null) {
-      _y_endPoint = value;
-      result.value = value;
-    }
-  }
-
-  double _z_endPoint = 0;
-  double get z_endPoint => _z_endPoint;
-  set z_endPoint(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 31);
-    if (result != null) {
-      _z_endPoint = value;
-      result.value = value;
-    }
-  }
-
-  double _start = 0;
-  double get start => _start;
-  set start(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 41);
-    if (result != null) {
-      _start = value;
-      result.value = value;
-    }
-  }
-
-  double _end = 0;
-  double get end => _end;
-  set end(double value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 42);
-    if (result != null) {
-      _end = value;
-      result.value = value;
-    }
-  }
-
-  String _layerName = '0';
-  String get layerName => _layerName;
-  set layerName(String value) {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 8);
-    if (result != null) {
-      _layerName = value;
-      result.value = value;
-    }
-  }
-
-  @override
-  String get dxfString {
-    var str = '';
-    _groupCodes.forEach((element) {
-      str += element.dxfString;
-    });
-    return str;
-  }
-
-  @override
-  int? get handle => _handle;
 }
