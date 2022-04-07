@@ -8,39 +8,37 @@ part of dxf;
 /// variable's value. Only the variables that are saved in the drawing
 /// file are listed.
 class HeaderSection {
-  final _groupCodes = <GroupCode>[];
+  HeaderSection._init();
 
-  /// DXF Group Codes
-  List<GroupCode> get groupCodes => _groupCodes;
+  final groupCodes = <GroupCode>[];
 
   int _nextHandle = 400;
 
   /// Next available handle
-  int? get nextHandle {
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 5);
-    if (result != null) _nextHandle = int.tryParse(result.value, radix: 16)!;
-    return _nextHandle;
+  String get nextHandle {
+    var result = groupCodes.firstWhere((element) => element.code == 5);
+    return result.value;
   }
 
   void increase() {
     _nextHandle++;
-    var result = _groupCodes.firstWhereOrNull((element) => element.code == 5);
-    if (result != null) result.value = _nextHandle.toRadixString(16);
+    var result = groupCodes.firstWhere((element) => element.code == 5);
+    result.value = _nextHandle.toRadixString(16);
   }
 
-  HeaderSection._init();
-  static Future<HeaderSection> fromGroupCodes(List<GroupCode> codes) async {
+  factory HeaderSection.fromGroupCodes(List<GroupCode> codes) {
     var _section = HeaderSection._init();
-    _section._groupCodes.addAll(codes);
+    _section.groupCodes.addAll(codes);
     _section._parse();
     return _section;
   }
 
   void _parse() {
-    _groupCodes.forEach((element) {
-      if (element.code == 5) {
-        _nextHandle = int.tryParse(element.value, radix: 16)!;
-      }
-    });
+    try {
+      final result = groupCodes.firstWhere((element) => element.code == 5);
+      _nextHandle = int.tryParse(result.value, radix: 16)!;
+    } catch (e) {
+      _nextHandle = 400;
+    }
   }
 }

@@ -1,242 +1,86 @@
-import 'dart:io';
+import 'dart:math';
 
 import 'package:dxf/dxf.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 
 void main() {
-  runApp(MyApp());
-}
+  final dxf = DXF.create();
+  // or dxf = DXF.fromString(dxfString);
+  var arc = AcDbArc(
+    x: -3.4,
+    y: 19.8,
+    z: 0,
+    radius: 4.5,
+    startAngle: 297,
+    endAngle: 40,
+  );
+  dxf.addEntities(arc);
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+  var circle = AcDbCircle(
+    x: 0.2,
+    y: 12,
+    z: 0,
+    radius: 2.5,
+  );
+  dxf.addEntities(circle);
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  var ellipse = AcDbEllipse(
+    x: 5.4,
+    y: 19,
+    z: 0,
+    x_endPoint: -1.6,
+    y_endPoint: -0.8,
+    z_endPoint: 0,
+    ratioMajor: 0.5,
+    start: 0,
+    end: 2 * pi,
+  );
+  dxf.addEntities(ellipse);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  var line = AcDbLine(
+    x: 3.6,
+    y: 14.3,
+    x1: 8.08,
+    y1: 15.3,
+  );
+  dxf.addEntities(line);
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Future _testDxf() async {
-    //String path = join(await getDatabasesPath(), 'igeopro.geojson');
-    var docDir = await getApplicationDocumentsDirectory();
-    var path = join(docDir.path, 'new.dxf');
-
-    var dxf = await DXF.create(path);
-    var point = AcDbPoint(dxf.nextHandle, x: 10, y: 10.5);
-    dxf.addEntities(point);
-
-    var circle = AcDbCircle(
-      dxf.nextHandle,
-      x: 7.0,
-      y: 14.0,
+  var mtext = AcDbMText(
+      x: 3.7,
+      y: 12.3,
       z: 0,
-      r: 10.0,
-    );
-    dxf.addEntities(circle);
+      textHeight: 2.5,
+      textString: 'Hello, xin chào',
+      columnWidth: 12.9);
+  dxf.addEntities(mtext);
 
-    var line = AcDbLine(
-      dxf.nextHandle,
-      x: 12.2,
-      y: 11.5,
-      x1: 22.0,
-      y1: 13.6,
-    );
-    dxf.addEntities(line);
+  var point = AcDbPoint(x: -0.6, y: 8.3, z: 0);
+  dxf.addEntities(point);
 
-    var vertices = <List<double>>[];
-    vertices.addAll([
-      [25, 11],
-      [21, 18],
-      [23, 23]
-    ]);
-    var pl = AcDbPolyline(
-      dxf.nextHandle,
-      vertices: vertices,
-      isClosed: false,
-    );
-    dxf.addEntities(pl);
-    pl.vertices.addAll([
-      [24, 25]
-    ]);
+  var vertices = <List<double>>[];
+  vertices.addAll([
+    [2.4, 21.1],
+    [6.7, 22.6],
+    [9.9, 21.7],
+    [13.5, 22.6]
+  ]);
 
-    var closedPl = AcDbPolyline(
-      dxf.nextHandle,
-      vertices: [
-        [27, 20],
-        [36, 20],
-        [35, 14],
-        [27, 14]
-      ],
-      isClosed: true,
-    );
+  var polyline = AcDbPolyline(vertices: vertices, isClosed: false);
+  dxf.addEntities(polyline);
 
-    dxf.addEntities(closedPl);
-    var handle1 = dxf.nextHandle!;
-    var text = AcDbText(
-      handle1,
-      x: 11,
-      y: 20,
-      textString: 'Hello!',
-    );
-    dxf.addEntities(text);
+  var text = AcDbText(
+    x: 14.2,
+    y: 16.7,
+    textString: 'https://humg.edu.vn',
+  );
+  dxf.addEntities(text);
 
-    var handle = dxf.nextHandle!;
-    var mtext = AcDbMText(
-      handle,
-      x: 19,
-      y: 7,
-      textString: 'Hello!\\PXin chào!',
-    );
-    dxf.addEntities(mtext);
-
-    print('Saving...');
-    await dxf.save().then((_) {
-      print('Saved!');
-    });
-
-    var e = dxf.getEntityByHandle(handle);
-    dxf.removeEntity(e);
-
-    var e1 = dxf.getEntityByHandle(handle1);
-    if (e1 is AcDbText) {
-      e1.textString = 'Trần Trung Chuyên';
-    }
-
-    dxf.addEntities(mtext);
-
-    // print('Saving...');
-    // await dxf.save().then((_) {
-    //   print('Saved!');
-    // });
-
-    dxf.entities.forEach((element) {
-      print(element.dxfString);
-    });
-
-    print('Loading...');
-    final content = await rootBundle.load('assets/data/r18.dxf');
-    File newFile = File('${docDir.path}/r18.dxf');
-    newFile.writeAsBytesSync(content.buffer.asUint8List());
-
-    final r18Path = join(docDir.path, 'r18.dxf');
-    var dxfr18 = await DXF.load(r18Path);
-    dxfr18.entities.forEach((element) {
-      if (element.runtimeType == AcDbPolyline) {
-        final pl = element as AcDbPolyline;
-        print(pl.vertices.length);
-      }
-    });
-    await dxfr18.save(newPath: '${docDir.path}/r18s.dxf').then((value) {
-      print('Saved!');
-    });
-    print(newFile);
-  }
-
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _testDxf();
-          _incrementCounter();
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
+  // Load string from ASCII DXF file
+  final dxf1 = DXF.fromString(dxf.dxfString);
+  var text1 = AcDbText(
+    x: 18.2,
+    y: 26.7,
+    textString: 'DXF package',
+  );
+  dxf1.addEntities(text1);
+  print(dxf1.dxfString);
 }

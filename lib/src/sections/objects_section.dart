@@ -6,15 +6,13 @@ part of dxf;
 /// section of a DXF™ file and are used by AutoLISP ® and ObjectARX ®
 /// applications in entity definition lists.
 class ObjectsSection {
-  final _groupCodes = <GroupCode>[];
-
   /// DXF Group Codes
-  List<GroupCode> get groupCodes => _groupCodes;
+  final groupCodes = <GroupCode>[];
 
   ObjectsSection._init();
-  static Future<ObjectsSection> fromGroupCodes(List<GroupCode> codes) async {
+  factory ObjectsSection.fromGroupCodes(List<GroupCode> codes) {
     var _section = ObjectsSection._init();
-    _section._groupCodes.addAll(codes);
+    _section.groupCodes.addAll(codes);
     return _section;
   }
 }

@@ -7,11 +7,7 @@ library dxf;
 
 import 'dart:convert';
 
-import 'package:collection/collection.dart' show IterableExtension;
-import 'package:universal_io/io.dart';
-
 part 'src/dxf_base.dart';
-part 'src/datamodels/entity_base.dart';
 part 'src/datamodels/group_code.dart';
 part 'src/datamodels/ac_db_circle.dart';
 part 'src/datamodels/ac_db_ellipse.dart';

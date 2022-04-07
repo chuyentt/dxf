@@ -6,17 +6,15 @@ part of dxf;
 /// by applications. The TABLES section contains several tables, each of which
 /// can contain a variable number of entries.
 class TablesSection {
-  final _groupCodes = <GroupCode>[];
-
   /// DXF Group Codes
-  List<GroupCode> get groupCodes => _groupCodes;
+  final groupCodes = <GroupCode>[];
 
   TablesSection._init();
 
   /// Return the Tables section from group codes
-  static Future<TablesSection> fromGroupCodes(List<GroupCode> codes) async {
+  factory TablesSection.fromGroupCodes(List<GroupCode> codes) {
     var _section = TablesSection._init();
-    _section._groupCodes.addAll(codes);
+    _section.groupCodes.addAll(codes);
     return _section;
   }
 }

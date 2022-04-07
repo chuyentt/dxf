@@ -1,4 +1,5 @@
 # DXF package for Dart and Flutter developers
+
 [![pub package](https://img.shields.io/pub/v/dxf.svg)](https://pub.dartlang.org/packages/dxf)
 
 DXF package for Dart developers to create, read, update and delete the data in AutoCAD DXF file - a CAD data file format developed by Autodesk.
@@ -11,111 +12,78 @@ A simple usage example:
 import 'package:dxf/dxf.dart';
 
 void main() {
-  var launchTime = DateTime.now();
-  await DXF.load('example/data/r18.dxf').then((DXF dxf) {
-    dxf.save(newPath: 'example/data/r18s.dxf');
-    print(DateTime.now().difference(launchTime));
-  });
-}
-```
-
-```dart
-import 'package:dxf/dxf.dart';
-
-Future<void> main() async {
-  var dxf = await DXF.create('example/data/new.dxf');
-  var point = AcDbPoint(dxf.nextHandle, x: 10, y: 10.5);
-  dxf.addEntities(point);
+  final dxf = DXF.create();
+  // or dxf = DXF.fromString(dxfString);
+  var arc = AcDbArc(
+    x: -3.4,
+    y: 19.8,
+    z: 0,
+    radius: 4.5,
+    startAngle: 297,
+    endAngle: 40,
+  );
+  dxf.addEntities(arc);
 
   var circle = AcDbCircle(
-    dxf.nextHandle,
-    x: 7.0,
-    y: 14.0,
+    x: 0.2,
+    y: 12,
     z: 0,
-    r: 10.0,
+    radius: 2.5,
   );
   dxf.addEntities(circle);
 
+  var ellipse = AcDbEllipse(
+    x: 5.4,
+    y: 19,
+    z: 0,
+    x_endPoint: -1.6,
+    y_endPoint: -0.8,
+    z_endPoint: 0,
+    ratioMajor: 0.5,
+    start: 0,
+    end: 2 * pi,
+  );
+  dxf.addEntities(ellipse);
+
   var line = AcDbLine(
-    dxf.nextHandle,
-    x: 12.2,
-    y: 11.5,
-    x1: 22.0,
-    y1: 13.6,
+    x: 3.6,
+    y: 14.3,
+    x1: 8.08,
+    y1: 15.3,
   );
   dxf.addEntities(line);
 
+  var mtext = AcDbMText(
+      x: 3.7,
+      y: 12.3,
+      z: 0,
+      textHeight: 2.5,
+      textString: 'Hello, xin chào',
+      columnWidth: 12.9);
+  dxf.addEntities(mtext);
+
+  var point = AcDbPoint(x: -0.6, y: 8.3, z: 0);
+  dxf.addEntities(point);
+
   var vertices = <List<double>>[];
   vertices.addAll([
-    [25, 11],
-    [21, 18],
-    [23, 23]
-  ]);
-  var pl = AcDbPolyline(
-    dxf.nextHandle,
-    vertices: vertices,
-    isClosed: false,
-  );
-  dxf.addEntities(pl);
-  pl.vertices.addAll([
-    [24, 25]
+    [2.4, 21.1],
+    [6.7, 22.6],
+    [9.9, 21.7],
+    [13.5, 22.6]
   ]);
 
-  var closedPl = AcDbPolyline(
-    dxf.nextHandle,
-    vertices: [
-      [27, 20],
-      [36, 20],
-      [35, 14],
-      [27, 14]
-    ],
-    isClosed: true,
-  );
+  var polyline = AcDbPolyline(vertices: vertices, isClosed: false);
+  dxf.addEntities(polyline);
 
-  dxf.addEntities(closedPl);
-  var handle1 = dxf.nextHandle;
   var text = AcDbText(
-    handle1,
-    x: 11,
-    y: 20,
-    textString: 'Hello!',
+    x: 14.2,
+    y: 16.7,
+    textString: 'https://humg.edu.vn',
   );
   dxf.addEntities(text);
 
-  var handle = dxf.nextHandle;
-  var mtext = AcDbMText(
-    handle,
-    x: 19,
-    y: 7,
-    textString: 'Hello!\\PXin chào!',
-  );
-  dxf.addEntities(mtext);
-
-  print('Saving...');
-  await dxf.save().then((_) {
-    print('Saved!');
-  });
-
-  var e = dxf.getEntityByHandle(handle);
-  dxf.removeEntity(e);
-
-  var e1 = dxf.getEntityByHandle(handle1);
-  if (e1 is AcDbText) {
-    e1.textString = 'Trần Trung Chuyên';
-  }
-
-  dxf.addEntities(mtext);
-
-  print('Saving...');
-  await dxf.save().then((_) {
-    print('Saved!');
-  });
-
-  print('Loading...');
-  var dxfr18 = await DXF.load('example/data/r18.dxf');
-  await dxfr18.save(newPath: 'example/data/r18s.dxf').then((value) {
-    print('Saved!');
-  });
+  print(dxf.dxfString);
 }
 ```
 
