@@ -5,7 +5,11 @@ part of dxf;
 /// The DXF™ format is a tagged data representation of all the information
 /// contained in an AutoCAD ® drawing file
 class DXF {
+  DXF._init();
+
+  /// DXF Group Codes
   final groupCodes = <GroupCode>[];
+
   late HeaderSection _headerSection;
   late ClassesSection _classesSection;
   late TablesSection _tablesSection;
@@ -13,23 +17,21 @@ class DXF {
   late EntitiesSection _entitiesSection;
   late ObjectsSection _objectsSection;
 
-  DXF._init();
-
-  /// Add entities to the DXF file
+  /// Add entities to the DXF object
   void addEntities(AcDbEntity entity) {
-    entity.handle = _headerSection.nextHandle;
-    _entitiesSection.addEntity(entity);
-    _headerSection.increase();
+    entity._handle = _headerSection._nextHandle.toRadixString(16);
+    _entitiesSection._addEntity(entity);
+    _headerSection._increase();
   }
 
   /// Get entity by handle
   AcDbEntity getEntityByHandle(String handle) {
-    return _entitiesSection.getEntityByHandle(handle);
+    return _entitiesSection._getEntityByHandle(handle);
   }
 
   /// Remove entity
   void removeEntity(AcDbEntity entity) {
-    _entitiesSection.removeEntity(entity);
+    _entitiesSection._removeEntity(entity);
   }
 
   /// Get all entities
@@ -63,17 +65,17 @@ class DXF {
           var _element = codes[1];
           assert(_element.code == 2);
           if (_element.isHEADER) {
-            _headerSection = HeaderSection.fromGroupCodes(codes);
+            _headerSection = HeaderSection._fromGroupCodes(codes);
           } else if (_element.isCLASSES) {
-            _classesSection = ClassesSection.fromGroupCodes(codes);
+            _classesSection = ClassesSection._fromGroupCodes(codes);
           } else if (_element.isTABLES) {
-            _tablesSection = TablesSection.fromGroupCodes(codes);
+            _tablesSection = TablesSection._fromGroupCodes(codes);
           } else if (_element.isBLOCKS) {
-            _blocksSection = BlocksSection.fromGroupCodes(codes);
+            _blocksSection = BlocksSection._fromGroupCodes(codes);
           } else if (_element.isENTITIES) {
-            _entitiesSection = EntitiesSection.fromGroupCodes(codes);
+            _entitiesSection = EntitiesSection._fromGroupCodes(codes);
           } else if (_element.isOBJECTS) {
-            _objectsSection = ObjectsSection.fromGroupCodes(codes);
+            _objectsSection = ObjectsSection._fromGroupCodes(codes);
           }
         }
       }
@@ -100,12 +102,12 @@ class DXF {
   /// Return dxfString
   String get dxfString {
     return [
-      _headerSection.groupCodes.expand((e) => [e.dxfString]).join(),
-      _classesSection.groupCodes.expand((e) => [e.dxfString]).join(),
-      _tablesSection.groupCodes.expand((e) => [e.dxfString]).join(),
-      _blocksSection.groupCodes.expand((e) => [e.dxfString]).join(),
-      _entitiesSection.dxfString,
-      _objectsSection.groupCodes.expand((e) => [e.dxfString]).join(),
+      _headerSection._groupCodes.expand((e) => [e._dxfString]).join(),
+      _classesSection._groupCodes.expand((e) => [e._dxfString]).join(),
+      _tablesSection._groupCodes.expand((e) => [e._dxfString]).join(),
+      _blocksSection._groupCodes.expand((e) => [e._dxfString]).join(),
+      _entitiesSection._dxfString,
+      _objectsSection._groupCodes.expand((e) => [e._dxfString]).join(),
       '  0\r\n',
       'EOF\r\n',
     ].join();

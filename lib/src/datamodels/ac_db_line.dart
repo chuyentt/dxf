@@ -4,26 +4,19 @@ part of dxf;
 ///
 /// Subclass marker (AcDbLine)
 class AcDbLine implements AcDbEntity {
-  AcDbLine._();
+  AcDbLine._init();
 
   @override
-  List<GroupCode> groupCodes = <GroupCode>[];
+  List<GroupCode> _groupCodes = <GroupCode>[];
 
   @override
-  String get dxfString => groupCodes.expand((e) => [e.dxfString]).join();
+  String get _dxfString => _groupCodes.expand((e) => [e._dxfString]).join();
 
   @override
   String _handle = '190';
 
   @override
   String get handle => _handle;
-
-  @override
-  set handle(value) {
-    final result = groupCodes.firstWhere((element) => element.code == 5);
-    result.value = value;
-    _handle = value;
-  }
 
   @override
   String _layerName = '0';
@@ -33,7 +26,7 @@ class AcDbLine implements AcDbEntity {
 
   @override
   set layerName(String value) {
-    final result = groupCodes.firstWhere((element) => element.code == 8);
+    final result = _groupCodes.firstWhere((element) => element.code == 8);
     _layerName = value;
     result.value = value;
   }
@@ -41,7 +34,7 @@ class AcDbLine implements AcDbEntity {
   double _x = 0;
   double get x => _x;
   set x(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 10);
+    final result = _groupCodes.firstWhere((element) => element.code == 10);
     _x = value;
     result.value = value;
   }
@@ -49,7 +42,7 @@ class AcDbLine implements AcDbEntity {
   double _y = 0;
   double get y => _y;
   set y(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 20);
+    final result = _groupCodes.firstWhere((element) => element.code == 20);
     _y = value;
     result.value = value;
   }
@@ -57,7 +50,7 @@ class AcDbLine implements AcDbEntity {
   double _z = 0;
   double get z => _z;
   set z(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 30);
+    final result = _groupCodes.firstWhere((element) => element.code == 30);
     _z = value;
     result.value = value;
   }
@@ -65,7 +58,7 @@ class AcDbLine implements AcDbEntity {
   double _x1 = 0;
   double get x1 => _x1;
   set x1(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 11);
+    final result = _groupCodes.firstWhere((element) => element.code == 11);
     _x1 = value;
     result.value = value;
   }
@@ -73,7 +66,7 @@ class AcDbLine implements AcDbEntity {
   double _y1 = 0;
   double get y1 => _y1;
   set y1(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 21);
+    final result = _groupCodes.firstWhere((element) => element.code == 21);
     _y1 = value;
     result.value = value;
   }
@@ -81,17 +74,17 @@ class AcDbLine implements AcDbEntity {
   double _z1 = 0;
   double get z1 => _z1;
   set z1(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 31);
+    final result = _groupCodes.firstWhere((element) => element.code == 31);
     _z1 = value;
     result.value = value;
   }
 
-  factory AcDbLine.fromGroupCodes(List<GroupCode> codes) {
-    var _acDbEntity = AcDbLine._();
-    _acDbEntity.groupCodes.addAll(codes);
+  factory AcDbLine._fromGroupCodes(List<GroupCode> codes) {
+    var _acDbEntity = AcDbLine._init();
+    _acDbEntity._groupCodes.addAll(codes);
     try {
       var result = codes.firstWhere((element) => element.code == 5);
-      _acDbEntity.handle = result.value;
+      _acDbEntity._handle = result.value;
       result = codes.firstWhere((element) => element.code == 10);
       _acDbEntity._x = double.parse(result.value);
       result = codes.firstWhere((element) => element.code == 20);
@@ -128,17 +121,17 @@ class AcDbLine implements AcDbEntity {
         _y1 = y1,
         _z1 = z1,
         _layerName = layerName {
-    groupCodes.add(GroupCode(0, 'LINE'));
-    groupCodes.add(GroupCode(5, handle));
-    groupCodes.add(GroupCode(330, '1F'));
-    groupCodes.add(GroupCode(100, 'AcDbEntity'));
-    groupCodes.add(GroupCode(8, layerName));
-    groupCodes.add(GroupCode(100, 'AcDbLine'));
-    groupCodes.add(GroupCode(10, x));
-    groupCodes.add(GroupCode(20, y));
-    groupCodes.add(GroupCode(30, z));
-    groupCodes.add(GroupCode(11, x1));
-    groupCodes.add(GroupCode(21, y1));
-    groupCodes.add(GroupCode(31, z1));
+    _groupCodes.add(GroupCode(0, 'LINE'));
+    _groupCodes.add(GroupCode(5, handle));
+    _groupCodes.add(GroupCode(330, '1F'));
+    _groupCodes.add(GroupCode(100, 'AcDbEntity'));
+    _groupCodes.add(GroupCode(8, layerName));
+    _groupCodes.add(GroupCode(100, 'AcDbLine'));
+    _groupCodes.add(GroupCode(10, x));
+    _groupCodes.add(GroupCode(20, y));
+    _groupCodes.add(GroupCode(30, z));
+    _groupCodes.add(GroupCode(11, x1));
+    _groupCodes.add(GroupCode(21, y1));
+    _groupCodes.add(GroupCode(31, z1));
   }
 }

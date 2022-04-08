@@ -82,7 +82,7 @@ class GroupCode {
     return code == 0 && value.toString() == 'ELLIPSE';
   }
 
-  String get dxfString {
+  String get _dxfString {
     return '${code.toString().padLeft(3, ' ')}\r\n$value\r\n';
   }
 }

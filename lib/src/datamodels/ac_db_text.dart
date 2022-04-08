@@ -4,26 +4,19 @@ part of dxf;
 ///
 /// Subclass marker (AcDbText)
 class AcDbText implements AcDbEntity {
-  AcDbText._();
+  AcDbText._init();
 
   @override
-  List<GroupCode> groupCodes = <GroupCode>[];
+  List<GroupCode> _groupCodes = <GroupCode>[];
 
   @override
-  String get dxfString => groupCodes.expand((e) => [e.dxfString]).join();
+  String get _dxfString => _groupCodes.expand((e) => [e._dxfString]).join();
 
   @override
   String _handle = '190';
 
   @override
   String get handle => _handle;
-
-  @override
-  set handle(value) {
-    final result = groupCodes.firstWhere((element) => element.code == 5);
-    result.value = value;
-    _handle = value;
-  }
 
   @override
   String _layerName = '0';
@@ -33,7 +26,7 @@ class AcDbText implements AcDbEntity {
 
   @override
   set layerName(String value) {
-    final result = groupCodes.firstWhere((element) => element.code == 8);
+    final result = _groupCodes.firstWhere((element) => element.code == 8);
     _layerName = value;
     result.value = value;
   }
@@ -41,7 +34,7 @@ class AcDbText implements AcDbEntity {
   double _x = 0;
   double get x => _x;
   set x(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 10);
+    final result = _groupCodes.firstWhere((element) => element.code == 10);
     _x = value;
     result.value = value;
   }
@@ -49,7 +42,7 @@ class AcDbText implements AcDbEntity {
   double _y = 0;
   double get y => _y;
   set y(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 20);
+    final result = _groupCodes.firstWhere((element) => element.code == 20);
     _y = value;
     result.value = value;
   }
@@ -57,7 +50,7 @@ class AcDbText implements AcDbEntity {
   double _z = 0;
   double get z => _z;
   set z(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 30);
+    final result = _groupCodes.firstWhere((element) => element.code == 30);
     _z = value;
     result.value = value;
   }
@@ -65,7 +58,7 @@ class AcDbText implements AcDbEntity {
   String _textString = 'Title';
   String get textString => _textString;
   set textString(String value) {
-    final result = groupCodes.firstWhere((element) => element.code == 1);
+    final result = _groupCodes.firstWhere((element) => element.code == 1);
     _textString = value;
     result.value = value;
   }
@@ -73,17 +66,17 @@ class AcDbText implements AcDbEntity {
   double _textHeight = 2.5;
   double get textHeight => _textHeight;
   set textHeight(double value) {
-    final result = groupCodes.firstWhere((element) => element.code == 40);
+    final result = _groupCodes.firstWhere((element) => element.code == 40);
     _textHeight = value;
     result.value = value;
   }
 
-  factory AcDbText.fromGroupCodes(List<GroupCode> codes) {
-    final _acDbEntity = AcDbText._();
-    _acDbEntity.groupCodes.addAll(codes);
+  factory AcDbText._fromGroupCodes(List<GroupCode> codes) {
+    final _acDbEntity = AcDbText._init();
+    _acDbEntity._groupCodes.addAll(codes);
     try {
       var result = codes.firstWhere((element) => element.code == 5);
-      _acDbEntity.handle = result.value;
+      _acDbEntity._handle = result.value;
       result = codes.firstWhere((element) => element.code == 10);
       _acDbEntity._x = double.parse(result.value);
       result = codes.firstWhere((element) => element.code == 20);
@@ -115,17 +108,17 @@ class AcDbText implements AcDbEntity {
         _textString = textString,
         _textHeight = textHeight,
         _layerName = layerName {
-    groupCodes.add(GroupCode(0, 'TEXT'));
-    groupCodes.add(GroupCode(5, handle));
-    groupCodes.add(GroupCode(330, '1F'));
-    groupCodes.add(GroupCode(100, 'AcDbEntity'));
-    groupCodes.add(GroupCode(8, layerName));
-    groupCodes.add(GroupCode(100, 'AcDbText'));
-    groupCodes.add(GroupCode(10, x));
-    groupCodes.add(GroupCode(20, y));
-    groupCodes.add(GroupCode(30, z));
-    groupCodes.add(GroupCode(40, textHeight));
-    groupCodes.add(GroupCode(1, textString));
-    groupCodes.add(GroupCode(100, 'AcDbText'));
+    _groupCodes.add(GroupCode(0, 'TEXT'));
+    _groupCodes.add(GroupCode(5, handle));
+    _groupCodes.add(GroupCode(330, '1F'));
+    _groupCodes.add(GroupCode(100, 'AcDbEntity'));
+    _groupCodes.add(GroupCode(8, layerName));
+    _groupCodes.add(GroupCode(100, 'AcDbText'));
+    _groupCodes.add(GroupCode(10, x));
+    _groupCodes.add(GroupCode(20, y));
+    _groupCodes.add(GroupCode(30, z));
+    _groupCodes.add(GroupCode(40, textHeight));
+    _groupCodes.add(GroupCode(1, textString));
+    _groupCodes.add(GroupCode(100, 'AcDbText'));
   }
 }

@@ -5,12 +5,14 @@ part of dxf;
 /// The BLOCKS section of the DXF file contains an entry for each block
 /// reference in the drawing.
 class BlocksSection {
-  /// DXF Group Codes
-  final groupCodes = <GroupCode>[];
   BlocksSection._init();
-  factory BlocksSection.fromGroupCodes(List<GroupCode> codes) {
+
+  /// DXF Group Codes
+  final _groupCodes = <GroupCode>[];
+
+  factory BlocksSection._fromGroupCodes(List<GroupCode> codes) {
     var _section = BlocksSection._init();
-    _section.groupCodes.addAll(codes);
+    _section._groupCodes.addAll(codes);
     return _section;
   }
 }

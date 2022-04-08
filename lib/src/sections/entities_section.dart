@@ -4,10 +4,12 @@ part of dxf;
 ///
 /// Entities group codes that apply to graphical objects.
 class EntitiesSection {
+  EntitiesSection._init();
+
+  /// DXF Entities
   final entities = <AcDbEntity>[];
 
-  EntitiesSection._init();
-  factory EntitiesSection.fromGroupCodes(List<GroupCode> groupCodes) {
+  factory EntitiesSection._fromGroupCodes(List<GroupCode> groupCodes) {
     var _section = EntitiesSection._init();
     var codes = <GroupCode>[];
     groupCodes.skip(2).forEach((element) async {
@@ -19,23 +21,23 @@ class EntitiesSection {
           var _element = _codes[0];
           var item;
           if (_element.isAcDbArc) {
-            item = AcDbArc.fromGroupCodes(_codes);
+            item = AcDbArc._fromGroupCodes(_codes);
           } else if (_element.isAcDbCircle) {
-            item = AcDbCircle.fromGroupCodes(_codes);
+            item = AcDbCircle._fromGroupCodes(_codes);
           } else if (_element.isAcDbEllipse) {
-            item = AcDbEllipse.fromGroupCodes(_codes);
+            item = AcDbEllipse._fromGroupCodes(_codes);
           } else if (_element.isAcDbLine) {
-            item = AcDbLine.fromGroupCodes(_codes);
+            item = AcDbLine._fromGroupCodes(_codes);
           } else if (_element.isAcDbMText) {
-            item = AcDbMText.fromGroupCodes(_codes);
+            item = AcDbMText._fromGroupCodes(_codes);
           } else if (_element.isAcDbPoint) {
-            item = AcDbPoint.fromGroupCodes(_codes);
+            item = AcDbPoint._fromGroupCodes(_codes);
           } else if (_element.isAcDbPolyline) {
-            item = AcDbPolyline.fromGroupCodes(_codes);
+            item = AcDbPolyline._fromGroupCodes(_codes);
           } else if (_element.isAcDbText) {
-            item = AcDbText.fromGroupCodes(_codes);
+            item = AcDbText._fromGroupCodes(_codes);
           } else {
-            item = AcDbEntity.fromGroupCodes(codes);
+            item = AcDbEntity._fromGroupCodes(codes);
           }
           _section.entities.add(item);
         }
@@ -46,23 +48,23 @@ class EntitiesSection {
     return _section;
   }
 
-  void addEntity(AcDbEntity entity) {
+  void _addEntity(AcDbEntity entity) {
     entities.add(entity);
   }
 
-  void removeEntity(AcDbEntity entity) {
+  void _removeEntity(AcDbEntity entity) {
     entities.remove(entity);
   }
 
-  AcDbEntity getEntityByHandle(String handle) {
+  AcDbEntity _getEntityByHandle(String handle) {
     var entity = entities.where((element) => element.handle == handle).first;
     return entity;
   }
 
-  String get dxfString {
+  String get _dxfString {
     var str = '  0\r\nSECTION\r\n  2\r\nENTITIES\r\n';
     entities.forEach((element) {
-      str += element.dxfString;
+      str += element._dxfString;
     });
     return str + '  0\r\nENDSEC\r\n';
   }

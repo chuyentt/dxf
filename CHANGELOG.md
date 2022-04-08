@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [3.1.0] - 2022-04-08
+
+* Fixed name issues
+* Additional documentation
+* Code optimization
+
+## [3.0.0] - 2022-04-08
+
+* Refactor
+
 ## [2.1.0] - 2022-04-06
 
 * Add support AcDbEllipse entity
