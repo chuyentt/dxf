@@ -94,17 +94,27 @@ Future<void> main() async {
       expect(text.handle, '27a');
       expect(dxf.getEntityByHandle('27a').runtimeType, AcDbText);
 
-      // Load string from ASCII DXF file
-      final dxf1 = DXF.fromString(dxf.dxfString);
       var text1 = AcDbText(
         x: 18.2,
         y: 26.7,
         textString: 'DXF package',
       );
-      dxf1.addEntities(text1);
+      dxf.addEntities(text1);
       expect(text1.handle, '27b');
-      expect(dxf1.getEntityByHandle('27b').runtimeType, AcDbText);
-      print(dxf1.dxfString);
+      expect(dxf.getEntityByHandle('27b').runtimeType, AcDbText);
+
+      var solid = AcDbSolid(
+          x: 3.2,
+          y: 24.5,
+          x1: 2.4,
+          y1: 26.3,
+          x2: 5.3,
+          y2: 27.9,
+          x3: 6.1,
+          y3: 27.7);
+      dxf.addEntities(solid);
+      expect(solid.handle, '27c');
+      expect(dxf.getEntityByHandle('27c').runtimeType, AcDbSolid);
     });
   });
 }

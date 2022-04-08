@@ -20,18 +20,20 @@ class DXF {
   /// Add entities to the DXF object
   void addEntities(AcDbEntity entity) {
     entity._handle = _headerSection._nextHandle.toRadixString(16);
+    var result = entity._groupCodes.firstWhere((element) => element.code == 5);
+    result.value = entity._handle;
     _entitiesSection._addEntity(entity);
     _headerSection._increase();
   }
 
   /// Get entity by handle
-  AcDbEntity getEntityByHandle(String handle) {
+  AcDbEntity? getEntityByHandle(String handle) {
     return _entitiesSection._getEntityByHandle(handle);
   }
 
   /// Remove entity
-  void removeEntity(AcDbEntity entity) {
-    _entitiesSection._removeEntity(entity);
+  bool removeEntity(AcDbEntity entity) {
+    return _entitiesSection._removeEntity(entity);
   }
 
   /// Get all entities

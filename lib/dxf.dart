@@ -15,6 +15,7 @@ part 'src/datamodels/ac_db_arc.dart';
 part 'src/datamodels/ac_db_point.dart';
 part 'src/datamodels/ac_db_line.dart';
 part 'src/datamodels/ac_db_polyline.dart';
+part 'src/datamodels/ac_db_solid.dart';
 part 'src/datamodels/ac_db_text.dart';
 part 'src/datamodels/ac_db_mtext.dart';
 part 'src/datamodels/ac_db_entity.dart';

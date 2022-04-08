@@ -82,5 +82,9 @@ void main() {
     textString: 'DXF package',
   );
   dxf1.addEntities(text1);
+
+  var solid = AcDbSolid(
+      x: 3.2, y: 24.5, x1: 2.4, y1: 26.3, x2: 5.3, y2: 27.9, x3: 6.1, y3: 27.7);
+  dxf1.addEntities(solid);
   print(dxf1.dxfString);
 }

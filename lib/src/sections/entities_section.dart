@@ -19,7 +19,7 @@ class EntitiesSection {
         codes.add(element);
         if (_codes.isNotEmpty) {
           var _element = _codes[0];
-          AcDbEntity? item = AcDbEntity._fromGroupCodes(codes);
+          var item = null;
           if (_element.isAcDbArc) {
             item = AcDbArc._fromGroupCodes(_codes);
           } else if (_element.isAcDbCircle) {
@@ -34,8 +34,12 @@ class EntitiesSection {
             item = AcDbPoint._fromGroupCodes(_codes);
           } else if (_element.isAcDbPolyline) {
             item = AcDbPolyline._fromGroupCodes(_codes);
+          } else if (_element.isAcDbSolid) {
+            item = AcDbSolid._fromGroupCodes(_codes);
           } else if (_element.isAcDbText) {
             item = AcDbText._fromGroupCodes(_codes);
+          } else {
+            item = AcDbEntity._fromGroupCodes(_codes);
           }
           _section.entities.add(item);
         }
@@ -50,13 +54,17 @@ class EntitiesSection {
     entities.add(entity);
   }
 
-  void _removeEntity(AcDbEntity entity) {
-    entities.remove(entity);
+  bool _removeEntity(AcDbEntity entity) {
+    return entities.remove(entity);
   }
 
-  AcDbEntity _getEntityByHandle(String handle) {
-    var entity = entities.where((element) => element.handle == handle).first;
-    return entity;
+  AcDbEntity? _getEntityByHandle(String handle) {
+    try {
+      var entity = entities.where((element) => element.handle == handle).first;
+      return entity;
+    } catch (e) {
+      return null;
+    }
   }
 
   String get _dxfString {

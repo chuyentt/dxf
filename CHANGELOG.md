@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [3.1.1] - 2022-04-08
+
+* Fixed some bugs
+* Created some tests
+* Add support AcDbSolid entity
+
 ## [3.1.0+1] - 2022-04-08
 
 * Fixed variable issues
