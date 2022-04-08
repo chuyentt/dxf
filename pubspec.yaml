@@ -1,14 +1,10 @@
 name: dxf
 description: DXF package for Dart developers to create, read, update and delete the data in AutoCAD DXF file - a CAD data file format developed by Autodesk.
-version: 3.0.0
+version: 3.1.0
 homepage: https://github.com/chuyentt/dxf
 
 environment:
   sdk: '>=2.16.2 <3.0.0'
 
-dependencies: 
-  dartdoc: ^5.0.1
-
 dev_dependencies:
-  lints: ^1.0.1
   test: ^1.20.2
