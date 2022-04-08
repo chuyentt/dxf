@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [3.1.0+1] - 2022-04-08
+
+* Fixed variable issues
+
 ## [3.1.0] - 2022-04-08
 
 * Fixed name issues

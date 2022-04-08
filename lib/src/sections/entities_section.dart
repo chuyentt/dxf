@@ -19,7 +19,7 @@ class EntitiesSection {
         codes.add(element);
         if (_codes.isNotEmpty) {
           var _element = _codes[0];
-          var item;
+          AcDbEntity? item = AcDbEntity._fromGroupCodes(codes);
           if (_element.isAcDbArc) {
             item = AcDbArc._fromGroupCodes(_codes);
           } else if (_element.isAcDbCircle) {
@@ -36,8 +36,6 @@ class EntitiesSection {
             item = AcDbPolyline._fromGroupCodes(_codes);
           } else if (_element.isAcDbText) {
             item = AcDbText._fromGroupCodes(_codes);
-          } else {
-            item = AcDbEntity._fromGroupCodes(codes);
           }
           _section.entities.add(item);
         }
