@@ -13,6 +13,12 @@ class AcDbPolyline implements AcDbEntity {
   String get _dxfString => _groupCodes.expand((e) => [e._dxfString]).join();
 
   @override
+  String _type = 'LWPOLYLINE';
+
+  @override
+  String get type => _type;
+
+  @override
   String _handle = '190';
 
   @override
@@ -64,7 +70,7 @@ class AcDbPolyline implements AcDbEntity {
   })  : _vertices = vertices,
         _isClosed = isClosed,
         _layerName = layerName {
-    _groupCodes.add(GroupCode(0, 'LWPOLYLINE'));
+    _groupCodes.add(GroupCode(0, type));
     _groupCodes.add(GroupCode(5, handle));
     _groupCodes.add(GroupCode(330, '1F'));
     _groupCodes.add(GroupCode(100, 'AcDbEntity'));

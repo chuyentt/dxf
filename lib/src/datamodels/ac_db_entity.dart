@@ -1,5 +1,16 @@
 part of dxf;
 
+enum EntityType {
+  EMPTY,
+  POINT,
+  ARC,
+  LINE,
+  MTEXT,
+  POLYLINE,
+  SOLID,
+  TEXT,
+}
+
 /// Create AcDbEntity.
 class AcDbEntity {
   AcDbEntity._init();
@@ -11,6 +22,13 @@ class AcDbEntity {
   String get _dxfString {
     return _groupCodes.expand((e) => [e._dxfString]).join();
   }
+
+  String _type = '';
+
+  /// Type of entity
+  ///
+  /// ARC | CIRCLE | ELLIPSE | LINE | MTEXT | POINT | POLYLINE | SOLID | TEXT
+  String get type => _type;
 
   String _handle = '';
 
