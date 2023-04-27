@@ -79,12 +79,16 @@ class AcDbSpline implements AcDbEntity {
     _groupCodes.add(GroupCode(73, vertices.length));
     _groupCodes.add(GroupCode(70, isClosed ? 1 : 8));
     _groupCodes.add(GroupCode(43, 0.0));
+    _vertices.forEach((element) {
+      _groupCodes.add(GroupCode(10, element[0]));
+      _groupCodes.add(GroupCode(20, element[1]));
+    });
   }
 
   var _vertices = <List<double>>[];
   List<List<double>> get vertices => _vertices;
   set vertices(List<List<double>> value) {
-    final result = _groupCodes.firstWhere((element) => element.code == 90);
+    final result = _groupCodes.firstWhere((element) => element.code == 73);
     result.value = value.length;
     _vertices = value;
   }
