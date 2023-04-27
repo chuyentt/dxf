@@ -79,6 +79,10 @@ class AcDbPolyline implements AcDbEntity {
     _groupCodes.add(GroupCode(90, vertices.length));
     _groupCodes.add(GroupCode(70, isClosed ? 1 : 0));
     _groupCodes.add(GroupCode(43, 0.0));
+    _vertices.forEach((element) {
+      _groupCodes.add(GroupCode(10, element[0]));
+      _groupCodes.add(GroupCode(20, element[1]));
+    });
   }
 
   var _vertices = <List<double>>[];
