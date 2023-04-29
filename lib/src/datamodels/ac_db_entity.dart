@@ -12,6 +12,13 @@ class AcDbEntity {
     return _groupCodes.expand((e) => [e._dxfString]).join();
   }
 
+  String _type = '';
+
+  /// Type of entity
+  ///
+  /// ARC | CIRCLE | ELLIPSE | LINE | MTEXT | POINT | POLYLINE | SOLID | TEXT
+  String get type => _type;
+
   String _handle = '';
 
   /// DXF handle

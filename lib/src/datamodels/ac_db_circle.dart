@@ -13,6 +13,12 @@ class AcDbCircle implements AcDbEntity {
   String get _dxfString => _groupCodes.expand((e) => [e._dxfString]).join();
 
   @override
+  String _type = 'CIRCLE';
+
+  @override
+  String get type => _type;
+
+  @override
   String _handle = '190';
 
   @override
@@ -97,7 +103,7 @@ class AcDbCircle implements AcDbEntity {
         _z = z,
         _radius = radius,
         _layerName = layerName {
-    _groupCodes.add(GroupCode(0, 'CIRCLE'));
+    _groupCodes.add(GroupCode(0, type));
     _groupCodes.add(GroupCode(5, handle));
     _groupCodes.add(GroupCode(330, '1F'));
     _groupCodes.add(GroupCode(100, 'AcDbEntity'));

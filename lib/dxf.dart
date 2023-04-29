@@ -7,18 +7,19 @@ library dxf;
 
 import 'dart:convert';
 
-part 'src/dxf_base.dart';
-part 'src/datamodels/group_code.dart';
+part 'src/datamodels/ac_db_arc.dart';
 part 'src/datamodels/ac_db_circle.dart';
 part 'src/datamodels/ac_db_ellipse.dart';
-part 'src/datamodels/ac_db_arc.dart';
-part 'src/datamodels/ac_db_point.dart';
+part 'src/datamodels/ac_db_entity.dart';
 part 'src/datamodels/ac_db_line.dart';
+part 'src/datamodels/ac_db_mtext.dart';
+part 'src/datamodels/ac_db_point.dart';
 part 'src/datamodels/ac_db_polyline.dart';
 part 'src/datamodels/ac_db_solid.dart';
+part 'src/datamodels/ac_db_spline.dart';
 part 'src/datamodels/ac_db_text.dart';
-part 'src/datamodels/ac_db_mtext.dart';
-part 'src/datamodels/ac_db_entity.dart';
+part 'src/datamodels/group_code.dart';
+part 'src/dxf_base.dart';
 part 'src/sections/blocks_section.dart';
 part 'src/sections/classes_section.dart';
 part 'src/sections/entities_section.dart';

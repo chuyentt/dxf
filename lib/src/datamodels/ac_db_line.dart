@@ -13,6 +13,12 @@ class AcDbLine implements AcDbEntity {
   String get _dxfString => _groupCodes.expand((e) => [e._dxfString]).join();
 
   @override
+  String _type = 'LINE';
+
+  @override
+  String get type => _type;
+
+  @override
   String _handle = '190';
 
   @override
@@ -121,7 +127,7 @@ class AcDbLine implements AcDbEntity {
         _y1 = y1,
         _z1 = z1,
         _layerName = layerName {
-    _groupCodes.add(GroupCode(0, 'LINE'));
+    _groupCodes.add(GroupCode(0, type));
     _groupCodes.add(GroupCode(5, handle));
     _groupCodes.add(GroupCode(330, '1F'));
     _groupCodes.add(GroupCode(100, 'AcDbEntity'));

@@ -38,6 +38,8 @@ class EntitiesSection {
             item = AcDbSolid._fromGroupCodes(_codes);
           } else if (_element.isAcDbText) {
             item = AcDbText._fromGroupCodes(_codes);
+          } else if (_element.isAcDbSpline) {
+            item = AcDbSpline._fromGroupCodes(_codes);
           } else {
             item = AcDbEntity._fromGroupCodes(_codes);
           }
