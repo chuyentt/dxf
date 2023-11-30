@@ -48,10 +48,10 @@ class AcDbPolyline implements AcDbEntity {
     codes.forEach((element) {
       if (element.code == 10) {
         _acDbEntity._vertices.add([double.parse(element.value)]);
-        _acDbEntity._groupCodes.remove(element);
+        //_acDbEntity._groupCodes.remove(element);
       } else if (element.code == 20) {
         _acDbEntity._vertices.last.add(double.parse(element.value));
-        _acDbEntity._groupCodes.remove(element);
+        //_acDbEntity._groupCodes.remove(element);
       }
     });
     return _acDbEntity;
@@ -73,6 +73,10 @@ class AcDbPolyline implements AcDbEntity {
     _groupCodes.add(GroupCode(90, vertices.length));
     _groupCodes.add(GroupCode(70, isClosed ? 1 : 0));
     _groupCodes.add(GroupCode(43, 0.0));
+    vertices.forEach((element) {
+      _groupCodes.add(GroupCode(10, element[0]));
+      _groupCodes.add(GroupCode(20, element[1]));
+    });
   }
 
   var _vertices = <List<double>>[];
@@ -81,6 +85,12 @@ class AcDbPolyline implements AcDbEntity {
     final result = _groupCodes.firstWhere((element) => element.code == 90);
     result.value = value.length;
     _vertices = value;
+    _groupCodes
+        .removeWhere((element) => element.code == 10 || element.code == 20);
+    value.forEach((element) {
+      _groupCodes.add(GroupCode(10, element[0]));
+      _groupCodes.add(GroupCode(20, element[1]));
+    });
   }
 
   bool _isClosed = false;

@@ -66,7 +66,6 @@ void main() {
 
   var polyline = AcDbPolyline(vertices: vertices, isClosed: false);
   dxf.addEntities(polyline);
-
   var text = AcDbText(
     x: 14.2,
     y: 16.7,

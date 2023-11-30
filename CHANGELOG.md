@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [3.1.2] - 2023-11-30
+
+* Resolved the issue related to AcDbPolyline not displaying in output files.
+
 ## [3.1.1] - 2022-04-08
 
 * Fixed some bugs
