@@ -66,6 +66,10 @@ class GroupCode {
     return code == 0 && value.toString() == 'LWPOLYLINE';
   }
 
+  bool get isAcDbSpline {
+    return code == 0 && value.toString() == 'SPLINE';
+  }
+
   bool get isAcDbSolid {
     return code == 0 && value.toString() == 'SOLID';
   }
