@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [3.1.2] - 2023-11-30
+## [3.1.3] - 2023-11-30
 
 * Resolved the issue related to AcDbPolyline not displaying in output files.
 
